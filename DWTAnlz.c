@@ -209,6 +209,7 @@ void sigCoef_Anlz(float *dwt, int n, float k, int *nsig, int **idxsig){
 			idxbuf[tnsig++] = i;
 
 	idxbuf = realloc(idxbuf, tnsig*sizeof(int));
+	qsort_r(idxbuf, tnsig, sizeof(int), magCompIdx, dwt);
 
 	*nsig = tnsig;
 	*idxsig = idxbuf;
@@ -245,8 +246,8 @@ int jtFromIdx(int idx, int n, int *j, int *t, int *tmin, int *tmax){
 		return -1;
 	}
 
-	int tj = 0;
-	while(idx >>= 1)
+	int tj = 0, tidx = idx;
+	while(tidx >>= 1)
 		tj++;
 
 	int tk = idx-(1<<tj);
