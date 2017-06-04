@@ -219,7 +219,7 @@ void sigCoef_Anlz(float *dwt, int n, float k, int *nsig, int **idxsig){
 
 // idx = 2^j + k
 
-int jkFromIdx(int idx, int *j, int *k){
+int jkFromIdx_Anlz(int idx, int *j, int *k){
 	if(idx<1){
 		printf("idx (%d) should be positive\n", idx);
 		return -1;
@@ -240,7 +240,7 @@ int jkFromIdx(int idx, int *j, int *k){
 }
 
 
-int jtFromIdx(int idx, int n, int *j, int *t, int *tmin, int *tmax){
+int jtFromIdx_Anlz(int idx, int n, int *j, int *t, int *tmin, int *tmax){
 	if(idx < 1){
 		printf("idx (%d) should be positive\n", idx);
 		return -1;
