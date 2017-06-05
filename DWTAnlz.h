@@ -15,6 +15,8 @@ float var_Anlz(float *dwt, int n, float *var);
 float stddev_Anlz(float *dwt, int n, float *stddev);
 void param_Anlz(float *dwt, int n, float *mean, float *stddev, float *max, float *min);
 
+void denoise_donohoHard_Anlz(float *ip, float *op, int n);
+void denoise_donohoSoft_Anlz(float *ip, float *op, int n);
 void denoise_Anlz(float *ip, float *op, int n, float k);
 void sigCoef_Anlz(float *dwt, int n, float k, int *nsig, int **idxsig);
 

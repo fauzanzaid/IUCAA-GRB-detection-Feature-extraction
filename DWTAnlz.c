@@ -21,6 +21,15 @@ static int magCompIdx(const void *i, const void *j, void *dwt){
 	return 0;
 }
 
+static float median(float *ip, int n, float *med){
+	float tip[n];
+	memcpy(tip, ip, n*sizeof(float));
+	qsort(tip, n, sizeof(float), magComp);
+	
+	*med = tip[n/2];
+	return tip[n/2];
+}
+
 
 
 void readDWTFile_Anlz(float **op, int *n, char *file){
@@ -181,6 +190,39 @@ void param_Anlz(float *dwt, int n, float *mean, float *stddev, float *max, float
 	if(min)		*min = tmin;
 }
 
+
+
+void denoise_donohoHard_Anlz(float *ip, float *op, int n){
+	float med, trshld;
+	
+	for(int j=1; j<n; j*=2){
+		median(ip+j, j, &med);
+		trshld = med/0.6745*sqrt(2*logf(j));
+		for(int i=j; i<2*j; i++){
+			if( fabs(ip[i])>trshld )
+				op[i] = ip[i];
+			else
+				op[i] = 0;
+		}
+	}
+}
+
+void denoise_donohoSoft_Anlz(float *ip, float *op, int n){
+	float med, trshld;
+	
+	for(int j=1; j<n; j*=2){
+		median(ip+j, j, &med);
+		trshld = med/0.6745*sqrt(2*logf(j));
+		for(int i=j; i<2*j; i++){
+			if( ip[i]>trshld )
+				op[i] = ip[i]-trshld;
+			else if( ip[i]<-trshld )
+				op[i] = ip[i]+trshld;
+			else
+				op[i] = 0;
+		}
+	}
+}
 
 
 void denoise_Anlz(float *ip, float *op, int n, float k){
