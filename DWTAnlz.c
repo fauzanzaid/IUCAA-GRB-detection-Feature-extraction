@@ -360,7 +360,7 @@ int readAnlzWriteFile_Anlz(char *file1, char *file2, float k, char *mode){
 	int n;
 	float mean, stddev, max, min;
 
-	if( strcmp(mode,"w")!=0 || strcmp(mode,"a")!=0 ){
+	if( strcmp(mode,"w")!=0 && strcmp(mode,"a")!=0 ){
 		printf("mode (\"%s\") should be \"w\" or \"a\"\n", mode);
 		return -1;
 	}
