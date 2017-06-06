@@ -4,6 +4,7 @@
 
 *Driver.c
 *.txt
+AnlzDWTfileIO.c
 
 # Prerequisites
 *.d

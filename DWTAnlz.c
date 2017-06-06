@@ -35,53 +35,55 @@ static float median(float *ip, int n, float *med){
 
 
 
-void readDWTFile_Anlz(float **op, int *n, char *file){
+int readDWTFile_Anlz(float **op, int *n, char *file){
 	if(!n){
 		printf("Cannot access n @ %p\n", n);
-		return;
+		return -1;
 	}
 
 	FILE *ipfile = fopen(file, "r");
 	if(ipfile == NULL){
 		printf("Cannot access \"%s\"\n", file);
-		return;
+		return -1;
 	}
 
 	if( fscanf(ipfile, " %d", n) != 1 ){
 		printf("Bad file: \"%s\"\n", file);
-		return;	
+		return -1;	
 	}
 	if((*n)&(*n-1) != 0 ){
 		printf("%d is not a square\n", *n);
-		return;	
+		return -1;	
 	}
 
 	*op = malloc(sizeof(float)*(*n));	// Convert to buffer later!!!
 	if(!*op){
 		printf("Unable to allocate %zu bytes\n", sizeof(float)*(*n));
-		return;	
+		return -1;	
 	}
 
 	for (int i=0; i<*n; ++i)
 		if( fscanf(ipfile, " %f", &((*op)[i])) != 1 ){
 			printf("Bad file: \"%s\"\n", file);
-			return;	
+			return -1;	
 		}
 		
 	fclose(ipfile);
+
+	return 0;
 }
 
-void writeDWTFile_Anlz(float *ip, int n, char *file){
+intt writeDWTFile_Anlz(float *ip, int n, char *file){
 	
 	if( n&(n-1) != 0 ){
 		printf("%d is not a square\n", n);
-		return;	
+		return -1;	
 	}
 	
 	FILE *opfile = fopen(file, "w");
 	if(opfile == NULL){
 		printf("Cannot access \"%s\"\n", file);
-		return;
+		return -1;
 	}
 
 	fprintf(opfile, "%d\n", n);
@@ -92,6 +94,8 @@ void writeDWTFile_Anlz(float *ip, int n, char *file){
 	// fprintf(opfile, "//This is a DWT file\n");
 
 	fclose(opfile);
+
+	return(0)
 }
 
 
@@ -351,12 +355,13 @@ void readFileAnlzPrint_Anlz(char *file, float k){
 	free(idxsig);
 }
 
-void readAnlzWriteFile_Anlz(char *file1, char *file2, float k, char *mode){
+int readAnlzWriteFile_Anlz(char *file1, char *file2, float k, char *mode){
 	float *dwt;
 	int n;
 	float mean, stddev, max, min;
 
-	readDWTFile_Anlz(&dwt, &n, file1);
+	if( readDWTFile_Anlz(&dwt, &n, file1)==-1 )	// Check for any error
+		return -1;
 
 	int nsig;
 	int *idxsig;
@@ -366,7 +371,7 @@ void readAnlzWriteFile_Anlz(char *file1, char *file2, float k, char *mode){
 	FILE *opfile = fopen(file2, mode);
 	if(opfile == NULL){
 		printf("Cannot access \"%s\"\n", file1);
-		return;
+		return -1;
 	}
 	
 	fprintf(opfile, "%d\n", nsig);
@@ -379,4 +384,6 @@ void readAnlzWriteFile_Anlz(char *file1, char *file2, float k, char *mode){
 
 	free(dwt);
 	free(idxsig);
+
+	return 0;
 }
