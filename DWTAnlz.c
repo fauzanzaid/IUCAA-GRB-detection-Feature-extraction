@@ -13,12 +13,15 @@ static int magComp(const void *a, const void *b){
 	return 0;
 }
 
-static int magCompIdx(const void *i, const void *j, void *dwt){
-	float a = ((float*)dwt)[*((int*)i)];
-	float b = ((float*)dwt)[*((int*)j)];
+static int magCompIdx(const void *ip, const void *jp, void *dwt){
+	int i = *((int*)ip);
+	int j = *((int*)jp);
+	float a = ((float*)dwt)[i];
+	float b = ((float*)dwt)[j];
 	if( fabs(a) > fabs(b) )	return -1;
-	if( fabs(a) < fabs(b) )	return 1;
-	return 0;
+	else if( fabs(a) < fabs(b) )	return 1;
+	else if(i<j)	return -1;
+	else if(i>j)	return 1;
 }
 
 static float median(float *ip, int n, float *med){
