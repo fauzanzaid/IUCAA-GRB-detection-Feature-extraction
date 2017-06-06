@@ -332,13 +332,13 @@ void readFileAnlzPrint_Anlz(char *file, float k){
 
 	int idx, j, t, tmin, tmax;
 
-	printf("\n");
+	
+	sigCoef_Anlz(dwt, n, k, &nsig, &idxsig);
 	printf("\tnsig\t= %d\t\n", nsig);
 	printf("\tk\t= %f\t\n", k);
 	printf("\t────────────────────────────────\n");
 	printf("\tf\tt\tidx\tval\n");
 	printf("\t────────────────────────────────\n");
-	sigCoef_Anlz(dwt, n, k, &nsig, &idxsig);
 	for(int i=0; i<nsig; i++){
 		idx = idxsig[i];
 		jtFromIdx_Anlz(idx, n, &j, &t, &tmin, &tmax);
