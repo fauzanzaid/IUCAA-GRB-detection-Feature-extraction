@@ -350,3 +350,33 @@ void readFileAnlzPrint_Anlz(char *file, float k){
 	free(dwt);
 	free(idxsig);
 }
+
+void readAnlzWriteFile_Anlz(char *file1, char *file2, float k, char *mode){
+	float *dwt;
+	int n;
+	float mean, stddev, max, min;
+
+	readDWTFile_Anlz(&dwt, &n, file1);
+
+	int nsig;
+	int *idxsig;
+	sigCoef_Anlz(dwt, n, k, &nsig, &idxsig);
+	int idx, j, t, tmin, tmax;
+
+	FILE *opfile = fopen(file2, mode);
+	if(opfile == NULL){
+		printf("Cannot access \"%s\"\n", file1);
+		return;
+	}
+	
+	fprintf(opfile, "%d\n", nsig);
+	for(int i=0; i<nsig; i++){
+		idx = idxsig[i];
+		jtFromIdx_Anlz(idx, n, &j, &t, &tmin, &tmax);
+		// printf("%f\t%d\t%d\t%d\t%d\t%d\n", dwt[idx], idx, j, t, tmin, tmax);
+		fprintf(opfile, "%d\t%d\t%d\t%f\n", j, t, idx, dwt[idx]);
+	}
+
+	free(dwt);
+	free(idxsig);
+}
