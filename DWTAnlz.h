@@ -22,4 +22,6 @@ void sigCoef_Anlz(float *dwt, int n, float k, int *nsig, int **idxsig);
 
 int jkFromIdx_Anlz(int idx, int *j, int *k);
 int jtFromIdx_Anlz(int idx, int n, int *j, int *t, int *tmin, int *tmax);
+
+void readFileAnlzPrint_Anlz(char *file, float k);
 #endif

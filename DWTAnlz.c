@@ -306,3 +306,41 @@ int jtFromIdx_Anlz(int idx, int n, int *j, int *t, int *tmin, int *tmax){
 
 	return 1;
 }
+
+
+
+void readFileAnlzPrint_Anlz(char *file, float k){
+	float *dwt;
+	int n;
+	float mean, stddev, max, min;
+
+	readDWTFile_Anlz(&dwt, &n, file);
+	param_Anlz(dwt, n, &mean, &stddev, &max, &min);
+
+	printf("\tn\t= %d\n", n);
+	printf("\tμ\t= %f\n", mean);
+	printf("\tσ\t= %f\n", stddev);
+	printf("\tmax\t= %f\n", max);
+	printf("\tmin\t= %f\n", min);
+	
+	int nsig;
+	int *idxsig;
+
+
+	int idx, j, t, tmin, tmax;
+
+	printf("\n");
+	printf("\tf\tt\tidx\tval\n");
+	printf("\t────────────────────────────────\n");
+	sigCoef_Anlz(dwt, n, k, &nsig, &idxsig);
+	for(int i=0; i<nsig; i++){
+		idx = idxsig[i];
+		jtFromIdx_Anlz(idx, n, &j, &t, &tmin, &tmax);
+		// printf("%f\t%d\t%d\t%d\t%d\t%d\n", dwt[idx], idx, j, t, tmin, tmax);
+		printf("\t%d\t%d\t%d\t%f\n", j, t, idx, dwt[idx]);
+	}
+	printf("\n");
+
+	free(dwt);
+	free(idxsig);
+}
