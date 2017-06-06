@@ -20,7 +20,7 @@ static int magCompIdx(const void *ip, const void *jp, void *dwt){
 	float b = ((float*)dwt)[j];
 	if( fabs(a) > fabs(b) )	return -1;
 	else if( fabs(a) < fabs(b) )	return 1;
-	else if(i<j)	return -1;
+	else if(i<j)	return -1;	// Stable sort
 	else if(i>j)	return 1;
 }
 
@@ -333,6 +333,9 @@ void readFileAnlzPrint_Anlz(char *file, float k){
 	int idx, j, t, tmin, tmax;
 
 	printf("\n");
+	printf("\tnsig\t= %d\t\n", nsig);
+	printf("\tk\t= %f\t\n", k);
+	printf("\t────────────────────────────────\n");
 	printf("\tf\tt\tidx\tval\n");
 	printf("\t────────────────────────────────\n");
 	sigCoef_Anlz(dwt, n, k, &nsig, &idxsig);
@@ -342,7 +345,7 @@ void readFileAnlzPrint_Anlz(char *file, float k){
 		// printf("%f\t%d\t%d\t%d\t%d\t%d\n", dwt[idx], idx, j, t, tmin, tmax);
 		printf("\t%d\t%d\t%d\t%f\n", j, t, idx, dwt[idx]);
 	}
-	printf("\n");
+	printf("\t────────────────────────────────\n");
 
 	free(dwt);
 	free(idxsig);
