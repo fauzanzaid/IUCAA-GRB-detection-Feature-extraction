@@ -73,7 +73,7 @@ int readDWTFile_Anlz(float **op, int *n, char *file){
 	return 0;
 }
 
-intt writeDWTFile_Anlz(float *ip, int n, char *file){
+int writeDWTFile_Anlz(float *ip, int n, char *file){
 	
 	if( n&(n-1) != 0 ){
 		printf("%d is not a square\n", n);
@@ -95,7 +95,7 @@ intt writeDWTFile_Anlz(float *ip, int n, char *file){
 
 	fclose(opfile);
 
-	return(0)
+	return(0);
 }
 
 
@@ -316,7 +316,7 @@ int jtFromIdx_Anlz(int idx, int n, int *j, int *t, int *tmin, int *tmax){
 
 
 
-void readFileAnlzPrint_Anlz(char *file, float k){
+int readFileAnlzPrint_Anlz(char *file, float k){
 	float *dwt;
 	int n;
 	float mean, stddev, max, min;
@@ -360,6 +360,11 @@ int readAnlzWriteFile_Anlz(char *file1, char *file2, float k, char *mode){
 	int n;
 	float mean, stddev, max, min;
 
+	if( strcmp(mode,"w")!=0 || strcmp(mode,"a")!=0 ){
+		printf("mode (\"%s\") should be \"w\" or \"a\"\n", mode);
+		return -1;
+	}
+
 	if( readDWTFile_Anlz(&dwt, &n, file1)==-1 )	// Check for any error
 		return -1;
 
@@ -378,7 +383,6 @@ int readAnlzWriteFile_Anlz(char *file1, char *file2, float k, char *mode){
 	for(int i=0; i<nsig; i++){
 		idx = idxsig[i];
 		jtFromIdx_Anlz(idx, n, &j, &t, &tmin, &tmax);
-		// printf("%f\t%d\t%d\t%d\t%d\t%d\n", dwt[idx], idx, j, t, tmin, tmax);
 		fprintf(opfile, "%d\t%d\t%d\t%f\n", j, t, idx, dwt[idx]);
 	}
 

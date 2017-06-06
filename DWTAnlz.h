@@ -2,7 +2,7 @@
 #define includeGuard_2e23abd6ab6244ef90ce39da8c605365
 
 int readDWTFile_Anlz(float **op, int *n, char *file);
-void writeDWTFile_Anlz(float *ip, int n, char *file);
+int writeDWTFile_Anlz(float *ip, int n, char *file);
 
 void sort_Anlz(float *ip, float *op, int n);
 void sortIdx_Anlz(float *dwt, int **idxSorted, int n);
