@@ -24,4 +24,5 @@ int jkFromIdx_Anlz(int idx, int *j, int *k);
 int jtFromIdx_Anlz(int idx, int n, int *j, int *t, int *tmin, int *tmax);
 
 void readFileAnlzPrint_Anlz(char *file, float k);
+void readAnlzWriteFile_Anlz(char *file1, char *file2, float k, char* mode);
 #endif
