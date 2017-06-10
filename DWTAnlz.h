@@ -1,9 +1,6 @@
 #ifndef includeGuard_2e23abd6ab6244ef90ce39da8c605365
 #define includeGuard_2e23abd6ab6244ef90ce39da8c605365
 
-int readDWTFile_Anlz(float **op, int *n, char *file);
-int writeDWTFile_Anlz(float *ip, int n, char *file);
-
 void sort_Anlz(float *ip, float *op, int n);
 void sortIdx_Anlz(float *dwt, int **idxSorted, int n);
 
@@ -23,6 +20,4 @@ void sigCoef_Anlz(float *dwt, int n, float k, int *nsig, int **idxsig);
 int jkFromIdx_Anlz(int idx, int *j, int *k);
 int jtFromIdx_Anlz(int idx, int n, int *j, int *t, int *tmin, int *tmax);
 
-int readFileAnlzPrint_Anlz(char *file, float k);
-int readAnlzWriteFile_Anlz(char *file1, char *file2, float k, char* mode);
 #endif
