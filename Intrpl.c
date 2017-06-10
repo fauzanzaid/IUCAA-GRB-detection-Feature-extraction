@@ -6,20 +6,20 @@
 
 int linear_Intrpl(float *ip, int ipsz, float *op, int opsz){
 	
-	float i;
+	float map;
 	int j;
 
-	int iI;
-	float iIF, iF;
+	int i;
+	float iI, iF;
 
-	op[0] = ip[0];	// Not in loop to avoid possible fp errors at the ends
+	op[0] = ip[0];	// Not in loop to avoid possible fp errors
 	for(j=1; j<opsz-1; j++){
-		i = ((float)j)*(ipsz-1)/(opsz-1);
-		iF = modff(i, &iIF);
-		iI = (int)iIF;
-		op[j] = (1-iF)*ip[iI] + iF*ip[iI+1];
+		map = ((float)j)*(ipsz-1)/(opsz-1);
+		iF = modff(map, &iI);
+		i = (int)iI;
+		op[j] = (1-iF)*ip[i] + iF*ip[i+1];
 	}
-	op[opsz-1] = ip[ipsz-1];	// Not in loop to avoid possible fp errors at the ends
+	op[opsz-1] = ip[ipsz-1];	// Not in loop to avoid possible array out of bound
 
 	return 0;
 }
