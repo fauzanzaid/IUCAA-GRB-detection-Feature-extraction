@@ -9,6 +9,7 @@
 typedef struct BitVec{
 	uint8_t *arr;
 	int sz;
+	int n1;
 } BitVec;
 
 
@@ -32,6 +33,18 @@ void free_BitVec(BitVec *bvptr){
 
 
 
+int nSet_BitVec(BitVec *bvptr){
+	int arrsz = (bvptr->sz+7)/8;
+	int nSet = 0;
+
+	for(int i=0; i<arrsz; i++){
+		for(int j=1; j<256; j<<=1){
+			if( (bvptr->arr)[i] & j )
+				nSet++;
+		}
+	}
+}
+
 void setBit_BitVec(BitVec *bvptr, int idx, int val){
 	int arridx = idx/8;
 	int bitidx = idx%8;
@@ -46,8 +59,10 @@ void setAll_BitVec(BitVec *bvptr, int val){
 	int arrsz = (bvptr->sz+7)/8;
 	if(val==0)
 		memset(bvptr->arr, 0, arrsz*sizeof(uint8_t));
-	else if(val==1)
-		memset(bvptr->arr, 255, arrsz*sizeof(uint8_t));
+	else if(val==1){
+			memset(bvptr->arr, 255, arrsz*sizeof(uint8_t));
+			(bvptr->arr)[arrsz-1] &= 255<<(bvptr->sz%8);	// Set bits out of bound to zero
+	}
 }
 
 int getBit_BitVec(BitVec *bvptr, int idx){
