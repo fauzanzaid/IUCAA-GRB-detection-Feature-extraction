@@ -43,6 +43,7 @@ int nSet_BitVec(BitVec *bvptr){
 				nSet++;
 		}
 	}
+	return nSet;
 }
 
 void setBit_BitVec(BitVec *bvptr, int idx, int val){
