@@ -66,7 +66,7 @@ void boxBlur_SigAnlz(float* ip, float *op, int n, int rad){
 	}
 }
 
-void gausBlur_SigAnlz(float* ip, float *op, int n, int rad){
+void gaussBlur_SigAnlz(float* ip, float *op, int n, int rad){
 	float val;
 	for(int i=0; i<n; i++){
 		op[i] = 0;
