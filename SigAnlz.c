@@ -60,14 +60,18 @@ void boxBlur_SigAnlz(float* ip, float *op, int n, int rad){
 	for(int i=0; i<n; i++){
 		val = 0;
 		for(int j=i-rad; j<=i+rad; j++){
-			// printf("%d, %d\n", j, constrain(j,0,n-1));
 			val += ip[constrain(j,0,n-1)];
 		}
 		op[i] = val/(2*rad+1);
-		// printf("%f\n", op[i]);
 	}
 }
 
 void gausBlur_SigAnlz(float* ip, float *op, int n, int rad){
-
+	float val;
+	for(int i=0; i<n; i++){
+		op[i] = 0;
+		for(int j=i-rad; j<=i+rad; j++){
+			op[i] += ip[constrain(j,0,n-1)]*GaussCoeff[rad][j-i+rad];
+		}
+	}
 }

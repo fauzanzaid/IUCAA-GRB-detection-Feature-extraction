@@ -1,5 +1,5 @@
-#ifndef pa7d3025da6e4da7a37a65dde22b7072
-#define pa7d3025da6e4da7a37a65dde22b7072
+#ifndef includeGuard_pa7d3025da6e4da7a37a65dde22b7072
+#define includeGuard_pa7d3025da6e4da7a37a65dde22b7072
 
 #include "BitVec.h"
 
