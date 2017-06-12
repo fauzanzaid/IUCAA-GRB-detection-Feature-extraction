@@ -16,21 +16,15 @@ static int constrain(int n, int min, int max){
 void findBase_SigAnlz(float* sig, int n, BitVec *bvptr, float k, float diff){
 	float imean, irms, istddev, istddevPrev;
 	
-	istddev = FLT_MAX;
-	// istddev = 0;
-	
+	istddev = FLT_MAX;	
 	do{
 		istddevPrev = istddev;
-
 		param_SigAnlz(sig, n, bvptr, &imean, &irms, &istddev);
-		printf("%f, %f, %f\n", imean, irms, istddev);
 
 		for(int i=0; i<n; i++)
 			if( sig[i]>imean+k*istddev || sig[i]<imean-k*istddev)
 				setBit_BitVec(bvptr, i, 1);
 	}while(istddevPrev - istddev > diff);
-
-
 }
 
 void param_SigAnlz(float *sig, int n, BitVec *bvptr, float *mean, float *rms, float *stddev){
