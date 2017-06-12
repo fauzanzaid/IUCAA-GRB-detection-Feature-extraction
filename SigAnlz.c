@@ -3,6 +3,14 @@
 
 #include "SigAnlz.h"
 
+static int constrain(int n, int min, int max){
+	if(n<min)
+		return min;
+	if(n>max)
+		return max;
+	return n;
+}
+
 void findBase_SigAnlz(float* sig, int n, BitVec *bvptr, float k, int niter){
 	float imean, irms, istddev;
 
@@ -42,4 +50,23 @@ void param_SigAnlz(float *sig, int n, BitVec *bvptr, float *mean, float *rms, fl
 	*mean = tmean;
 	*rms = trms;
 	*stddev = tstddev;
+}
+
+
+
+void boxBlur_SigAnlz(float* ip, float *op, int n, int rad){
+	float val;
+	for(int i=0; i<n; i++){
+		val = 0;
+		for(int j=i-rad; j<=i+rad; j++){
+			// printf("%d, %d\n", j, constrain(j,0,n-1));
+			val += ip[constrain(j,0,n-1)];
+		}
+		op[i] = val/(2*rad+1);
+		// printf("%f\n", op[i]);
+	}
+}
+
+void gausBlur_SigAnlz(float* ip, float *op, int n, int rad){
+
 }
