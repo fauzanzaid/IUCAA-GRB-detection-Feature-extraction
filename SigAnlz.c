@@ -2,6 +2,7 @@
 #include <math.h>
 
 #include "SigAnlz.h"
+#include "GaussCoef.h"
 
 static int constrain(int n, int min, int max){
 	if(n<min)
