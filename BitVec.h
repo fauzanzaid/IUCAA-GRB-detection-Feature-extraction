@@ -13,4 +13,6 @@ void setBit_BitVec(BitVec *bvptr, int idx, int val);
 void setAll_BitVec(BitVec *bvptr, int val);
 int getBit_BitVec(BitVec *bvptr, int idx);
 
+int getSize_BitVec(BitVec *bvptr);
+
 #endif

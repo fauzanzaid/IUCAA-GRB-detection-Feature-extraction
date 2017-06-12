@@ -9,7 +9,6 @@
 typedef struct BitVec{
 	uint8_t *arr;
 	int sz;
-	int n1;
 } BitVec;
 
 
@@ -76,4 +75,10 @@ int getBit_BitVec(BitVec *bvptr, int idx){
 		return 0;
 	else
 		return 1;
+}
+
+
+
+int getSize_BitVec(BitVec *bvptr){
+	return bvptr->sz;
 }
