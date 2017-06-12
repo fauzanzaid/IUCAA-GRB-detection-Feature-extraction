@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <math.h>
+#include <float.h>
 
 #include "SigAnlz.h"
 #include "GaussCoef.h"
@@ -12,17 +13,24 @@ static int constrain(int n, int min, int max){
 	return n;
 }
 
-void findBase_SigAnlz(float* sig, int n, BitVec *bvptr, float k, int niter){
-	float imean, irms, istddev;
+void findBase_SigAnlz(float* sig, int n, BitVec *bvptr, float k, float diff){
+	float imean, irms, istddev, istddevPrev;
+	
+	istddev = FLT_MAX;
+	// istddev = 0;
+	
+	do{
+		istddevPrev = istddev;
 
-	for(int j=0; j<niter; j++){
 		param_SigAnlz(sig, n, bvptr, &imean, &irms, &istddev);
 		printf("%f, %f, %f\n", imean, irms, istddev);
 
 		for(int i=0; i<n; i++)
 			if( sig[i]>imean+k*istddev || sig[i]<imean-k*istddev)
 				setBit_BitVec(bvptr, i, 1);
-	}
+	}while(istddevPrev - istddev > diff);
+
+
 }
 
 void param_SigAnlz(float *sig, int n, BitVec *bvptr, float *mean, float *rms, float *stddev){

@@ -3,7 +3,7 @@
 
 #include "BitVec.h"
 
-void findBase_SigAnlz(float* sig, int n, BitVec *bvptr, float k, int niter);
+void findBase_SigAnlz(float* sig, int n, BitVec *bvptr, float k, float diff);
 void param_SigAnlz(float *sig, int n, BitVec *bvptr, float *mean, float *rms, float *stddev);
 
 void boxBlur_SigAnlz(float* ip, float *op, int n, int rad);
