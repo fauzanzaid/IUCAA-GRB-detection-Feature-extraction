@@ -82,3 +82,22 @@ int getBit_BitVec(BitVec *bvptr, int idx){
 int getSize_BitVec(BitVec *bvptr){
 	return bvptr->sz;
 }
+
+
+
+int hasNext_BitVec(BitVec *bvptr, int iter){
+	for(int i=iter; i<bvptr->sz; i++)
+		if(getBit_BitVec(bvptr, i)==1)
+			return 1;
+	return 0;
+}
+
+void getNext_BitVec(BitVec *bvptr, int *iter, int *lo, int *hi){
+	while(getBit_BitVec(bvptr,*iter)!=1)
+		(*iter)++;
+	*lo = *iter;
+
+	while(getBit_BitVec(bvptr,*iter)==1 && *iter<bvptr->sz)
+		(*iter)++;
+	*hi = *iter-1;
+}
