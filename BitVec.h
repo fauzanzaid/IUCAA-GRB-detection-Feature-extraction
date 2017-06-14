@@ -18,4 +18,6 @@ int getSize_BitVec(BitVec *bvptr);
 int hasNext_BitVec(BitVec *bvptr, int iter);
 void getNext_BitVec(BitVec *bvptr, int *iter, int *idx, int *len);
 
+void gaussBlur_BitVec(BitVec *bvptr, int rad, float th);
+
 #endif

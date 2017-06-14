@@ -3,6 +3,17 @@
 #include <string.h>
 
 #include "BitVec.h"
+#include "GaussCoef.h"
+
+
+
+static int constrain_ext(int n, int min, int max){
+	if(n<min)
+		return min;
+	if(n>max)
+		return max;
+	return n;
+}
 
 
 
@@ -101,4 +112,25 @@ void getNext_BitVec(BitVec *bvptr, int *iter, int *idx, int *len){
 	while(getBit_BitVec(bvptr,*iter)==1 && *iter<bvptr->sz)
 		(*iter)++;
 	*len = *iter-*idx;
+}
+
+
+
+void gaussBlur_BitVec(BitVec *bvptr, int rad, float th){
+	float val;
+	int sz = bvptr->sz;
+	BitVec *tbvptr = new_BitVec(sz);
+
+	for(int i=0; i<bvptr->sz; i++){
+		val = 0;
+		for(int j=i-rad; j<=i+rad; j++)
+			if(j>-1 || j<sz)
+				val += getBit_BitVec(bvptr,j)*GaussCoeff[rad][j-i+rad];
+		if(val>th)
+			setBit_BitVec(tbvptr, i, 1);
+	}
+
+	memcpy(bvptr->arr, tbvptr->arr, (bvptr->sz+7)/8);
+
+	free_BitVec(tbvptr);
 }
