@@ -9,7 +9,6 @@ void param_SigAnlz(float *sig, int n, BitVec *bvptr, float *mean, float *rms, fl
 void boxBlur_SigAnlz(float* ip, float *op, int n, int rad);
 void gaussBlur_SigAnlz(float* ip, float *op, int n, int rad);
 
-void gaussBlurBitVec_SigAnlz(BitVec* ip, BitVec *op, int rad, float th);
 void ignoreDipBitVec_SigAnlz(BitVec* ip, BitVec *op, float *sig, int n, float k);
 
 #endif
