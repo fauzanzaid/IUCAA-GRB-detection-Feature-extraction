@@ -16,6 +16,6 @@ int getBit_BitVec(BitVec *bvptr, int idx);
 int getSize_BitVec(BitVec *bvptr);
 
 int hasNext_BitVec(BitVec *bvptr, int iter);
-void getNext_BitVec(BitVec *bvptr, int *iter, int *lo, int *hi);
+void getNext_BitVec(BitVec *bvptr, int *iter, int *idx, int *len);
 
 #endif

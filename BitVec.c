@@ -84,7 +84,7 @@ int getSize_BitVec(BitVec *bvptr){
 }
 
 
-
+// Check for a 1 at and after iter position
 int hasNext_BitVec(BitVec *bvptr, int iter){
 	for(int i=iter; i<bvptr->sz; i++)
 		if(getBit_BitVec(bvptr, i)==1)
@@ -92,12 +92,13 @@ int hasNext_BitVec(BitVec *bvptr, int iter){
 	return 0;
 }
 
-void getNext_BitVec(BitVec *bvptr, int *iter, int *lo, int *hi){
+// Returns idx and len of next contiguous block of 1s
+void getNext_BitVec(BitVec *bvptr, int *iter, int *idx, int *len){
 	while(getBit_BitVec(bvptr,*iter)!=1)
 		(*iter)++;
-	*lo = *iter;
+	*idx = *iter;
 
 	while(getBit_BitVec(bvptr,*iter)==1 && *iter<bvptr->sz)
 		(*iter)++;
-	*hi = *iter-1;
+	*len = *iter-*idx;
 }
