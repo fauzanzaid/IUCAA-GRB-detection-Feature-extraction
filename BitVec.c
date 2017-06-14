@@ -107,21 +107,21 @@ int getSize_BitVec(BitVec *bvptr){
 }
 
 
-// Check for a 1 at and after iter position
-int hasNext_BitVec(BitVec *bvptr, int iter){
+// Check for val at and after iter position
+int hasNext_BitVec(BitVec *bvptr, int val, int iter){
 	for(int i=iter; i<bvptr->sz; i++)
-		if(getBit_BitVec(bvptr, i)==1)
+		if(getBit_BitVec(bvptr, i)==val)
 			return 1;
 	return 0;
 }
 
-// Returns idx and len of next contiguous block of 1s
-void getNext_BitVec(BitVec *bvptr, int *iter, int *idx, int *len){
-	while(getBit_BitVec(bvptr,*iter)!=1)
+// Returns idx and len of next contiguous block of vals
+void getNext_BitVec(BitVec *bvptr, int val, int *iter, int *idx, int *len){
+	while(getBit_BitVec(bvptr,*iter)!=val)
 		(*iter)++;
 	*idx = *iter;
 
-	while(getBit_BitVec(bvptr,*iter)==1 && *iter<bvptr->sz)
+	while(getBit_BitVec(bvptr,*iter)==val && *iter<bvptr->sz)
 		(*iter)++;
 	*len = *iter-*idx;
 }
