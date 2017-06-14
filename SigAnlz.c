@@ -79,16 +79,21 @@ void gaussBlur_SigAnlz(float* ip, float *op, int n, int rad){
 
 
 
-void ignoreDipBitVec_SigAnlz(BitVec* ip, BitVec *op, float *sig, int n, float k){
+void ignoreDipBitVec_SigAnlz(BitVec* bv, float *sig, int n, float k){
 	float mean, rms, stddev;
-	param_SigAnlz(sig, n, ip, &mean, &rms, &stddev);
+	param_SigAnlz(sig, n, bv, &mean, &rms, &stddev);
+
+	BitVec *tbv = new_BitVec(getSize_BitVec(bv));
 
 	for(int i=0; i<n; i++){
-		if(getBit_BitVec(ip,i)==0)
-			setBit_BitVec(op,i,0);
+		if(getBit_BitVec(bv,i)==0)
+			setBit_BitVec(tbv,i,0);
 		else if(sig[i]<mean-k*stddev)
-			setBit_BitVec(op,i,0);
+			setBit_BitVec(tbv,i,0);
 		else
-			setBit_BitVec(op,i,1);
+			setBit_BitVec(tbv,i,1);
 	}
+
+	copy_BitVec(tbv, bv);
+	free_BitVec(tbv);
 }
