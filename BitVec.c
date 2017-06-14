@@ -48,6 +48,14 @@ BitVec *duplicate_BitVec(BitVec *bvptr){
 	return dpptr;
 }
 
+void copy_BitVec(BitVec *src, BitVec *dest){
+	int sz = src->sz;
+	int arrsz = (sz+7)/8;
+	dest->sz = sz;
+	dest->arr = realloc(dest->arr, arrsz*sizeof(float));
+	memcpy(dest->arr, src->arr, arrsz*sizeof(float));
+}
+
 void free_BitVec(BitVec *bvptr){
 	free(bvptr->arr);
 	free(bvptr);

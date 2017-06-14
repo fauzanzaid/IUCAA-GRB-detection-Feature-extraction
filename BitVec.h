@@ -7,6 +7,7 @@ typedef struct BitVec BitVec;
 
 BitVec *new_BitVec(int sz);
 BitVec *duplicate_BitVec(BitVec *bvptr);
+void copy_BitVec(BitVec *src, BitVec *dest);
 void free_BitVec(BitVec *bvptr);
 
 int nSet_BitVec(BitVec *bvptr);
