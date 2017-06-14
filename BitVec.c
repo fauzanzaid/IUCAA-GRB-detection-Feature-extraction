@@ -36,6 +36,18 @@ BitVec *new_BitVec(int sz){
 	return bvptr;
 }
 
+BitVec *duplicate_BitVec(BitVec *bvptr){
+	BitVec *dpptr = malloc(sizeof(BitVec));
+
+	int arrsz = (bvptr->sz+7)/8;
+	dpptr->arr = malloc(arrsz*sizeof(uint8_t));
+
+	memcpy(dpptr->arr, bvptr->arr, arrsz*sizeof(uint8_t));
+	dpptr->sz = bvptr->sz;
+
+	return dpptr;
+}
+
 void free_BitVec(BitVec *bvptr){
 	free(bvptr->arr);
 	free(bvptr);
