@@ -13,7 +13,7 @@ static int constrain(int n, int min, int max){
 	return n;
 }
 
-void findBase_SigAnlz(float* sig, int n, BitVec *bvptr, float k, float diff){
+void threshold_SigAnlz(float* sig, int n, BitVec *bvptr, float k, float diff){
 	float imean, irms, istddev, istddevPrev;
 	
 	istddev = FLT_MAX;	
