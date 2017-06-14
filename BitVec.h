@@ -20,5 +20,6 @@ int hasNext_BitVec(BitVec *bvptr, int val, int iter);
 void getNext_BitVec(BitVec *bvptr, int val, int *iter, int *idx, int *len);
 
 void gaussBlur_BitVec(BitVec *bvptr, int rad, float th);
+void toggleMaxLen(BitVec *bvptr, int val, int maxlen);
 
 #endif

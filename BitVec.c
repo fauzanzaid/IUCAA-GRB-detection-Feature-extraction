@@ -146,3 +146,14 @@ void gaussBlur_BitVec(BitVec *bvptr, int rad, float th){
 
 	free_BitVec(tbvptr);
 }
+
+void toggleMaxLen(BitVec *bvptr, int val, int maxlen){
+	int idx, len;
+	int iter = 0;
+	while(hasNext_BitVec(bvptr,val,iter)){
+		getNext_BitVec(bvptr,val, &iter, &idx, &len);
+		if(len<=maxlen)
+			for(int i=idx; i<idx+len; i++)
+				setBit_BitVec(bvptr,i,!val);
+	}
+}
