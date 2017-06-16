@@ -1,10 +1,7 @@
+
+# Created by https://www.gitignore.io/api/c
+
 ### C ###
-
-# Custom
-
-*Driver.c
-*.txt
-
 # Prerequisites
 *.d
 
@@ -57,3 +54,5 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# End of https://www.gitignore.io/api/c
