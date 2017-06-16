@@ -35,13 +35,13 @@ static float median(float *ip, int n, float *med){
 
 
 
-void sort_Anlz(float *ip, float *op, int n){
+void sort_DWTAnlz(float *ip, float *op, int n){
 	if(ip!=op)
 		memcpy(op, ip, n*sizeof(float));
 	qsort(op, n, sizeof(float), magComp);
 }
 
-void sortIdx_Anlz(float *dwt, int **idxSorted, int n){
+void sortIdx_DWTAnlz(float *dwt, int **idxSorted, int n){
 	*idxSorted = malloc(n*sizeof(int));
 	for(int i=0; i<n; i++)
 		(*idxSorted)[i] = i;
@@ -50,7 +50,7 @@ void sortIdx_Anlz(float *dwt, int **idxSorted, int n){
 
 
 
-float sum_Anlz(float *dwt, int n, float *sum){
+float sum_DWTAnlz(float *dwt, int n, float *sum){
 	float tsum = 0;
 	
 	for(int i=1; i<n; i++)
@@ -60,7 +60,7 @@ float sum_Anlz(float *dwt, int n, float *sum){
 	return tsum;
 }
 
-float max_Anlz(float *dwt, int n, float *max){
+float max_DWTAnlz(float *dwt, int n, float *max){
 	float tmax = -FLT_MAX;
 	
 	for(int i=1; i<n; i++)
@@ -70,7 +70,7 @@ float max_Anlz(float *dwt, int n, float *max){
 	return tmax;
 }
 
-float min_Anlz(float *dwt, int n, float *min){
+float min_DWTAnlz(float *dwt, int n, float *min){
 	float tmin = FLT_MAX;
 	
 	for(int i=1; i<n; i++)
@@ -80,17 +80,17 @@ float min_Anlz(float *dwt, int n, float *min){
 	return tmin;
 }
 
-float mean_Anlz(float *dwt, int n, float *mean){
+float mean_DWTAnlz(float *dwt, int n, float *mean){
 	float tmean;
 
-	tmean = sum_Anlz(dwt, n, NULL)/(n-1);
+	tmean = sum_DWTAnlz(dwt, n, NULL)/(n-1);
 
 	if(mean)	*mean = tmean;
 	return tmean;
 }
 
-float var_Anlz(float *dwt, int n, float *var){
-	float tvar = 0, mean = sum_Anlz(dwt, n, NULL)/(n-1);
+float var_DWTAnlz(float *dwt, int n, float *var){
+	float tvar = 0, mean = sum_DWTAnlz(dwt, n, NULL)/(n-1);
 
 	for(int i=1; i<n; i++)
 		tvar += (dwt[i]-mean)*(dwt[i]-mean);
@@ -100,14 +100,14 @@ float var_Anlz(float *dwt, int n, float *var){
 	return tvar;
 }
 
-float stddev_Anlz(float *dwt, int n, float *stddev){
-	float tstddev = sqrt(var_Anlz(dwt, n, NULL));
+float stddev_DWTAnlz(float *dwt, int n, float *stddev){
+	float tstddev = sqrt(var_DWTAnlz(dwt, n, NULL));
 
 	if(stddev)	*stddev = tstddev;
 	return tstddev;
 }
 
-void param_Anlz(float *dwt, int n, float *mean, float *stddev, float *max, float *min){
+void param_DWTAnlz(float *dwt, int n, float *mean, float *stddev, float *max, float *min){
 	float tsum=0, tmean, tmax=-FLT_MAX, tmin=FLT_MAX;
 
 	for(int i=1; i<n; i++){
@@ -134,7 +134,7 @@ void param_Anlz(float *dwt, int n, float *mean, float *stddev, float *max, float
 
 
 
-void denoise_donohoHard_Anlz(float *ip, float *op, int n){
+void denoise_donohoHard_DWTAnlz(float *ip, float *op, int n){
 	float med, trshld;
 	
 	for(int j=1; j<n; j*=2){
@@ -149,7 +149,7 @@ void denoise_donohoHard_Anlz(float *ip, float *op, int n){
 	}
 }
 
-void denoise_donohoSoft_Anlz(float *ip, float *op, int n){
+void denoise_donohoSoft_DWTAnlz(float *ip, float *op, int n){
 	float med, trshld;
 	
 	for(int j=1; j<n; j*=2){
@@ -167,9 +167,9 @@ void denoise_donohoSoft_Anlz(float *ip, float *op, int n){
 }
 
 
-void denoise_Anlz(float *ip, float *op, int n, float k){
-	float trshldlo = mean_Anlz(ip, n, NULL) - k*stddev_Anlz(ip, n, NULL);
-	float trshldhi = mean_Anlz(ip, n, NULL) + k*stddev_Anlz(ip, n, NULL);
+void denoise_DWTAnlz(float *ip, float *op, int n, float k){
+	float trshldlo = mean_DWTAnlz(ip, n, NULL) - k*stddev_DWTAnlz(ip, n, NULL);
+	float trshldhi = mean_DWTAnlz(ip, n, NULL) + k*stddev_DWTAnlz(ip, n, NULL);
 	
 	for(int i=1; i<n; i++){
 		if( ip[i]>trshldhi || ip[i]<trshldlo )
@@ -179,9 +179,9 @@ void denoise_Anlz(float *ip, float *op, int n, float k){
 	}
 }
 
-void sigCoef_Anlz(float *dwt, int n, float k, int *nsig, int **idxsig){
-	float mean = mean_Anlz(dwt, n, NULL);
-	float stddev = stddev_Anlz(dwt, n, NULL);
+void sigCoef_DWTAnlz(float *dwt, int n, float k, int *nsig, int **idxsig){
+	float mean = mean_DWTAnlz(dwt, n, NULL);
+	float stddev = stddev_DWTAnlz(dwt, n, NULL);
 	float trshldlo = mean - k*stddev;
 	float trshldhi = mean + k*stddev;
 	int tnsig = 0;
@@ -199,11 +199,16 @@ void sigCoef_Anlz(float *dwt, int n, float k, int *nsig, int **idxsig){
 	*idxsig = idxbuf;
 }
 
+void ratio_DWTAnlz(float* dwt, int n, float *ratio, int nRatio){
+	for(int i=0; i<nRatio; i++)
+		ratio[i] = dwt[i+2]/dwt[1];
+}
+
 
 
 // idx = 2^j + k
 
-int jkFromIdx_Anlz(int idx, int *j, int *k){
+int jkFromIdx_DWTAnlz(int idx, int *j, int *k){
 	if(idx<1){
 		printf("idx (%d) should be positive\n", idx);
 		return -1;
@@ -224,7 +229,7 @@ int jkFromIdx_Anlz(int idx, int *j, int *k){
 }
 
 
-int jtFromIdx_Anlz(int idx, int n, int *j, int *t, int *tmin, int *tmax){
+int jtFromIdx_DWTAnlz(int idx, int n, int *j, int *t, int *tmin, int *tmax){
 	if(idx < 1){
 		printf("idx (%d) should be positive\n", idx);
 		return -1;
