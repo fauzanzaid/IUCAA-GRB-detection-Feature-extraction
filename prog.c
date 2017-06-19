@@ -29,6 +29,8 @@ int main(int argc, char *argv[]){
 	int numSig;		// Number of sigals in the dir
 	char *peakDir;
 	char *dwtDir;	// Dir conntaing DWTs
+	char *ratFile;	// File containg ratios
+	int numRat;		// Number of ratios to calculate
 	char *anlzChoice;
 
 
@@ -39,7 +41,12 @@ int main(int argc, char *argv[]){
 	numSig = atoi(argv[2]);
 	peakDir = argv[3];
 	dwtDir = argv[4];
-	anlzChoice = argv[5];
+	ratFile = argv[5];
+	numRat = atoi(argv[6]);
+	anlzChoice = argv[7];
+
+
+	FILE *ratFilePtr = fopen(ratFile, "w");
 
 
 	// Loop through all signal files
@@ -111,6 +118,16 @@ int main(int argc, char *argv[]){
 				coef_1D_Dx_DaubDWT(sigNew, dwt, dwtLen, 8);
 
 
+			// Output to ratio file
+			float rat[numRat];
+			ratio_DWTAnlz(dwt, dwtLen, rat, numRat);
+			fprintf(ratFilePtr, "%d\t%d\t%d\t%d\t", i_numSig, i_numPeak, peakIdx, peakLen);
+			for(int i_numRat=0; i_numRat<numRat; i_numRat++)
+				fprintf(ratFilePtr, "%f\t", rat[i_numRat]);
+			fprintf(ratFilePtr, "\n");
+
+
+			// Output DWT
 			char dwtFile[128];	// Name of current DWT file
 			sprintf(dwtFile, "%s/%d_%d.txt", dwtDir, i_numSig, i_numPeak);
 			// printf("Writing to %s\n", dwtFile);
@@ -130,6 +147,8 @@ int main(int argc, char *argv[]){
 		free(sig);
 
 	}
+
+	fclose(ratFilePtr);
 
 	return 0;
 }
