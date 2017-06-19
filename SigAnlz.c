@@ -3,7 +3,7 @@
 #include <float.h>
 
 #include "SigAnlz.h"
-#include "GaussCoef.h"
+#include "GaussCoef_SigAnlz.h"
 
 static int constrain(int n, int min, int max){
 	if(n<min)
