@@ -40,8 +40,8 @@ int main(int argc, char *argv[]){
 	int numSig;		// Number of sigals in the dir
 	char *peakDir;	// Dir to create dwt files
 	float sigTh;	// th*sigma for thresholding of signal
-	int minSigLen;	// Min length of a valid signal
 	int maxZero;	// Max length of holes in a signal
+	int minSigLen;	// Min length of a valid signal
 	float sigPad;	// Added padding L/R to sig before dwt
 	char *dwtDir;	// Dir conntaing DWTs
 	int dwtLen;		// Length of dwt analysis
@@ -50,7 +50,7 @@ int main(int argc, char *argv[]){
 	char *anlzChoice;
 
 	if(argc != 13){
-		printf("sigDir numSig peakDir sigTh minSigLen maxZero sigPad dwtDir dwtLen ratFile numRat anlzChoice\n");
+		printf("sigDir numSig peakDir sigTh maxZero minSigLen sigPad dwtDir dwtLen ratFile numRat anlzChoice\n");
 		return 0;
 	}
 	
@@ -60,8 +60,8 @@ int main(int argc, char *argv[]){
 	numSig = atoi(argv[2]);
 	peakDir = argv[3];
 	sigTh = atof(argv[4]);
-	minSigLen = atoi(argv[5]);
-	maxZero = atoi(argv[6]);
+	maxZero = atoi(argv[5]);
+	minSigLen = atoi(argv[6]);
 	sigPad = atof(argv[7]);
 	dwtDir = argv[8];
 	dwtLen = atoi(argv[9]);
@@ -103,7 +103,7 @@ int main(int argc, char *argv[]){
 
 		// Consolidate signal
 		toggleMaxLen(bv,0,1);	// Eliminate blocks of...
-		toggleMaxLen(bv,1,2);	// ...above average noise
+		toggleMaxLen(bv,1,3);	// ...above average noise
 		toggleMaxLen(bv,0,maxZero);
 		toggleMaxLen(bv,1,minSigLen-1);
 		
