@@ -144,7 +144,7 @@ void gaussBlur_BitVec(BitVec *bvptr, int rad, float th){
 	for(int i=0; i<bvptr->sz; i++){
 		val = 0;
 		for(int j=i-rad; j<=i+rad; j++)
-			if(j>-1 || j<sz)
+			if(j>-1 && j<sz)
 				val += getBit_BitVec(bvptr,j)*GaussCoef_BitVec[rad][j-i+rad];
 		if(val>th)
 			setBit_BitVec(tbvptr, i, 1);
