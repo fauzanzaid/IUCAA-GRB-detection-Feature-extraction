@@ -103,7 +103,6 @@ int main(int argc, char *argv[]){
 		toggleMaxLen(bv,0,maxZero);
 		toggleMaxLen(bv,1,minSigLen-1);
 		printbv(bv, sig);
-		// gaussBlur_BitVec(bv,3,0.2);
 		
 		// DEBUG
 		// printbv(bv, sig);
@@ -116,6 +115,16 @@ int main(int argc, char *argv[]){
 			int peakIdx;	// Storing peak location
 			int peakLen;
 			getNext_BitVec(bv,1,&iter,&peakIdx,&peakLen);	// Get peak idx and len
+
+			peakIdx -= sigPad;	// Add padding to signal
+			peakLen += 2*sigPad;
+			if(peakIdx < 0)	// Bound check L
+				peakIdx = 0;
+			if(peakIdx+peakLen > sigLen)	// Bound check R
+				peakLen = sigLen-peakIdx;
+
+			// DEBUG
+			// printf("%d %d\n", peakIdx, peakLen);
 
 			int sigNewLen = 16;
 			float *sigNew = malloc(sigNewLen*sizeof(float));	// Resized signal
