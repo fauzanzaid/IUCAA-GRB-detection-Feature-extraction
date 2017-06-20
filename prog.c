@@ -22,6 +22,17 @@ static int constrain(int n, int min, int max){
 	return n;
 }
 
+// DEBUG
+void printbv(BitVec *bv, float *sig){
+	int iter=0;
+	int idx, len;
+	while(hasNext_BitVec(bv,1,iter)){
+		getNext_BitVec(bv,1, &iter, &idx, &len);
+		printf("%d\t%d :\t%d\t\t%d :\t%d\n", len, idx, (int)sig[idx], idx+len-1, (int)sig[idx+len-1]);
+	}
+	printf("\n");
+}
+
 
 int main(int argc, char *argv[]){
 
@@ -33,7 +44,10 @@ int main(int argc, char *argv[]){
 	int numRat;		// Number of ratios to calculate
 	char *anlzChoice;
 
-
+	if(argc != 8){
+		printf("sigDir numSig peakDir dwtDir ratFile numRat anlzChoice\n");
+		return 0;
+	}
 	
 	// Argument parsing
 
@@ -74,8 +88,17 @@ int main(int argc, char *argv[]){
 		// Ignore dips
 		ignoreDipBitVec_SigAnlz(bv, sig, sigLen, 2);
 
+		// DEBUG
+		// printbv(bv, sig);
+
 		// Blur bit vector
-		gaussBlur_BitVec(bv,5,0.01);
+		toggleMaxLen(bv,0,2);
+		toggleMaxLen(bv,1,6);
+		printbv(bv, sig);
+		// gaussBlur_BitVec(bv,3,0.2);
+		
+		// DEBUG
+		// printbv(bv, sig);
 
 
 		// Loop through peaks
@@ -86,9 +109,10 @@ int main(int argc, char *argv[]){
 			int peakLen;
 			getNext_BitVec(bv,1,&iter,&peakIdx,&peakLen);	// Get peak idx and len
 
-			int sigNewLen = 32;
+			int sigNewLen = 16;
 			float *sigNew = malloc(sigNewLen*sizeof(float));	// Resized signal
 			cubic_Intrpl(sig+peakIdx, peakLen, sigNew, sigNewLen);
+			// linear_Intrpl(sig+peakIdx, peakLen, sigNew, sigNewLen);
 
 
 			// Write peak signal to file
@@ -104,7 +128,7 @@ int main(int argc, char *argv[]){
 			fclose(peakFilePtr);
 
 
-			int dwtLen = 32;
+			int dwtLen = sigNewLen;
 			float *dwt = malloc(dwtLen*sizeof(float));
 
 
@@ -125,6 +149,12 @@ int main(int argc, char *argv[]){
 			for(int i_numRat=0; i_numRat<numRat; i_numRat++)
 				fprintf(ratFilePtr, "%f\t", rat[i_numRat]);
 			fprintf(ratFilePtr, "\n");
+
+
+			// // DEBUG
+			// for(int i_numRat=0; i_numRat<numRat; i_numRat++)
+			// 	printf("%f\t", rat[i_numRat]);
+			// printf("\n");
 
 
 			// Output DWT
