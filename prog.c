@@ -102,6 +102,8 @@ int main(int argc, char *argv[]){
 		// printbv(bv, sig);
 
 		// Consolidate signal
+		toggleMaxLen(bv,0,1);	// Eliminate blocks of...
+		toggleMaxLen(bv,1,2);	// ...above average noise
 		toggleMaxLen(bv,0,maxZero);
 		toggleMaxLen(bv,1,minSigLen-1);
 		
