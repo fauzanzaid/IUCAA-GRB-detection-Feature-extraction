@@ -44,12 +44,13 @@ int main(int argc, char *argv[]){
 	int maxZero;	// Max length of holes in a signal
 	float sigPad;	// Added padding L/R to sig before dwt
 	char *dwtDir;	// Dir conntaing DWTs
+	int dwtLen;		// Length of dwt analysis
 	char *ratFile;	// File containg ratios
 	int numRat;		// Number of ratios to calculate
 	char *anlzChoice;
 
-	if(argc != 12){
-		printf("sigDir numSig peakDir sigTh minSigLen maxZero sigPad dwtDir ratFile numRat anlzChoice\n");
+	if(argc != 13){
+		printf("sigDir numSig peakDir sigTh minSigLen maxZero sigPad dwtDir dwtLen ratFile numRat anlzChoice\n");
 		return 0;
 	}
 	
@@ -63,9 +64,10 @@ int main(int argc, char *argv[]){
 	maxZero = atoi(argv[6]);
 	sigPad = atof(argv[7]);
 	dwtDir = argv[8];
-	ratFile = argv[9];
-	numRat = atoi(argv[10]);
-	anlzChoice = argv[11];
+	dwtLen = atoi(argv[9]);
+	ratFile = argv[10];
+	numRat = atoi(argv[11]);
+	anlzChoice = argv[12];
 
 
 	FILE *ratFilePtr = fopen(ratFile, "w");
@@ -99,10 +101,9 @@ int main(int argc, char *argv[]){
 		// DEBUG
 		// printbv(bv, sig);
 
-		// Blur bit vector
+		// Consolidate signal
 		toggleMaxLen(bv,0,maxZero);
 		toggleMaxLen(bv,1,minSigLen-1);
-		printbv(bv, sig);
 		
 		// DEBUG
 		// printbv(bv, sig);
@@ -126,7 +127,7 @@ int main(int argc, char *argv[]){
 			// DEBUG
 			// printf("%d %d\n", peakIdx, peakLen);
 
-			int sigNewLen = 16;
+			int sigNewLen = dwtLen;
 			float *sigNew = malloc(sigNewLen*sizeof(float));	// Resized signal
 			cubic_Intrpl(sig+peakIdx, peakLen, sigNew, sigNewLen);
 			// linear_Intrpl(sig+peakIdx, peakLen, sigNew, sigNewLen);
@@ -145,7 +146,6 @@ int main(int argc, char *argv[]){
 			fclose(peakFilePtr);
 
 
-			int dwtLen = sigNewLen;
 			float *dwt = malloc(dwtLen*sizeof(float));
 
 
