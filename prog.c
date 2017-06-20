@@ -38,14 +38,18 @@ int main(int argc, char *argv[]){
 
 	char *sigDir;	// Dir containing signal files n.txt
 	int numSig;		// Number of sigals in the dir
-	char *peakDir;
+	char *peakDir;	// Dir to create dwt files
+	float sigTh;	// th*sigma for thresholding of signal
+	int minSigLen;	// Min length of a valid signal
+	int maxZero;	// Max length of holes in a signal
+	float sigPad;	// Added padding L/R to sig before dwt
 	char *dwtDir;	// Dir conntaing DWTs
 	char *ratFile;	// File containg ratios
 	int numRat;		// Number of ratios to calculate
 	char *anlzChoice;
 
-	if(argc != 8){
-		printf("sigDir numSig peakDir dwtDir ratFile numRat anlzChoice\n");
+	if(argc != 12){
+		printf("sigDir numSig peakDir sigTh minSigLen maxZero sigPad dwtDir ratFile numRat anlzChoice\n");
 		return 0;
 	}
 	
@@ -54,10 +58,14 @@ int main(int argc, char *argv[]){
 	sigDir = argv[1];
 	numSig = atoi(argv[2]);
 	peakDir = argv[3];
-	dwtDir = argv[4];
-	ratFile = argv[5];
-	numRat = atoi(argv[6]);
-	anlzChoice = argv[7];
+	sigTh = atof(argv[4]);
+	minSigLen = atoi(argv[5]);
+	maxZero = atoi(argv[6]);
+	sigPad = atof(argv[7]);
+	dwtDir = argv[8];
+	ratFile = argv[9];
+	numRat = atoi(argv[10]);
+	anlzChoice = argv[11];
 
 
 	FILE *ratFilePtr = fopen(ratFile, "w");
@@ -83,17 +91,17 @@ int main(int argc, char *argv[]){
 
 		// Peak identification
 		BitVec *bv = new_BitVec(sigLen);
-		threshold_SigAnlz(sig, sigLen, bv, 2, 0.01);
+		threshold_SigAnlz(sig, sigLen, bv, sigTh, 0.01);
 
 		// Ignore dips
-		ignoreDipBitVec_SigAnlz(bv, sig, sigLen, 2);
+		ignoreDipBitVec_SigAnlz(bv, sig, sigLen, sigTh);
 
 		// DEBUG
 		// printbv(bv, sig);
 
 		// Blur bit vector
-		toggleMaxLen(bv,0,2);
-		toggleMaxLen(bv,1,6);
+		toggleMaxLen(bv,0,maxZero);
+		toggleMaxLen(bv,1,minSigLen-1);
 		printbv(bv, sig);
 		// gaussBlur_BitVec(bv,3,0.2);
 		
