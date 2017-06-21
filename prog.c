@@ -163,7 +163,7 @@ int main(int argc, char *argv[]){
 
 			// Output to ratio file
 			float rat[numRat];
-			ratio_DWTAnlz(dwt, dwtLen, rat, numRat);
+			ratioFixed_DWTAnlz(dwt, dwtLen, rat, numRat);
 			fprintf(ratFilePtr, "%d\t%d\t%d\t%d\t", i_numSig, i_numPeak, peakIdx, peakLen);
 			for(int i_numRat=0; i_numRat<numRat; i_numRat++)
 				fprintf(ratFilePtr, "%f\t", rat[i_numRat]);
