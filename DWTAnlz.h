@@ -17,6 +17,7 @@ void denoise_donohoSoft_DWTAnlz(float *ip, float *op, int n);
 void denoise_DWTAnlz(float *ip, float *op, int n, float k);
 void sigCoef_DWTAnlz(float *dwt, int n, float k, int *nsig, int **idxsig);
 void ratioFixed_DWTAnlz(float* dwt, int n, float *ratio, int nRatio);
+void ratioMoving_DWTAnlz(float* dwt, int n, float *ratio, int nRatio);
 
 int jkFromIdx_DWTAnlz(int idx, int *j, int *k);
 int jtFromIdx_DWTAnlz(int idx, int n, int *j, int *t, int *tmin, int *tmax);

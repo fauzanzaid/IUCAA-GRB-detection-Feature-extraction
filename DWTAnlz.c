@@ -204,6 +204,11 @@ void ratioFixed_DWTAnlz(float* dwt, int n, float *ratio, int nRatio){
 		ratio[i] = dwt[i+2]/dwt[1];
 }
 
+void ratioMoving_DWTAnlz(float* dwt, int n, float *ratio, int nRatio){
+	for(int i=0; i<nRatio; i++)
+		ratio[i] = dwt[i+2]/dwt[i+1];
+}
+
 
 
 // idx = 2^j + k
