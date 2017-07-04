@@ -167,9 +167,6 @@ int main(int argc, char *argv[]){
 			fprintf(ratFilePtr, "%d\t%d\t%d\t%d\t", i_numSig, i_numPeak, peakIdx, peakLen);
 			for(int i_numRat=0; i_numRat<numRat; i_numRat++)
 				fprintf(ratFilePtr, "%f\t", rat[i_numRat]);
-			ratioMoving_DWTAnlz(dwt, dwtLen, rat, numRat);
-			for(int i_numRat=0; i_numRat<numRat; i_numRat++)
-				fprintf(ratFilePtr, "%f\t", rat[i_numRat]);
 			fprintf(ratFilePtr, "\n");
 
 
