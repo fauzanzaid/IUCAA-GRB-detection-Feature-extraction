@@ -48,9 +48,10 @@ int main(int argc, char *argv[]){
 	char *ratFile;	// File containg ratios
 	int numRat;		// Number of ratios to calculate
 	char *anlzChoice;
+	int genMode; 	// 0:train, 1:human
 
-	if(argc != 13){
-		printf("sigDir numSig peakDir sigTh maxZero minSigLen sigPad dwtDir dwtLen ratFile numRat anlzChoice\n");
+	if(argc != 14){
+		printf("sigDir numSig peakDir sigTh maxZero minSigLen sigPad dwtDir dwtLen ratFile numRat anlzChoice genMode\n");
 		return 0;
 	}
 	
@@ -68,6 +69,7 @@ int main(int argc, char *argv[]){
 	ratFile = argv[10];
 	numRat = atoi(argv[11]);
 	anlzChoice = argv[12];
+	genMode = atoi(argv[13]);
 
 
 	FILE *ratFilePtr = fopen(ratFile, "w");
@@ -83,7 +85,8 @@ int main(int argc, char *argv[]){
 
 		// Read signal
 		int sigLen;
-		fscanf(sigFilePtr, " %d", &sigLen);
+		int sigType;
+		fscanf(sigFilePtr, " %d %d", &sigLen, &sigType);
 		float *sig = malloc(sigLen*sizeof(float));
 		for(int i=0; i<sigLen; i++)
 			fscanf(sigFilePtr, " %f", &sig[i]);
@@ -164,9 +167,12 @@ int main(int argc, char *argv[]){
 			// Output to ratio file
 			float rat[numRat];
 			ratioFixed_DWTAnlz(dwt, dwtLen, rat, numRat);
-			fprintf(ratFilePtr, "%d\t%d\t%d\t%d\t", i_numSig, i_numPeak, peakIdx, peakLen);
+			if(genMode==1)
+				fprintf(ratFilePtr, "%d\t%d\t%d\t%d\t%d\t", i_numSig, i_numPeak, peakIdx, peakLen, sigType);
+			else if(genMode==0)
+				fprintf(ratFilePtr, "%d", sigType);
 			for(int i_numRat=0; i_numRat<numRat; i_numRat++)
-				fprintf(ratFilePtr, "%f\t", rat[i_numRat]);
+				fprintf(ratFilePtr, " %d:%f", i_numRat, rat[i_numRat]);
 			fprintf(ratFilePtr, "\n");
 
 
@@ -190,6 +196,7 @@ int main(int argc, char *argv[]){
 
 			free(sigNew);
 			free(dwt);
+
 		}
 
 		free_BitVec(bv);
