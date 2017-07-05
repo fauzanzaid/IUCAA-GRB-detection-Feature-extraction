@@ -26,21 +26,14 @@ static int constrain(int n, int min, int max){
 
 int main(int argc, char *argv[]){
 
-	// char *sigDir;	// Dir containing signal files n.txt
-	// int numSig;		// Number of sigals in the dir
 	char *peakDir;	// Dir containing peak files n.txt
 	int numPeak;	// Number of peaks in the dir
-	// float sigTh;	// th*sigma for thresholding of signal
-	// int maxZero;	// Max length of holes in a signal
-	// int minSigLen;	// Min length of a valid signal
-	// float sigPad;	// Added padding L/R to sig before dwt
 	char *dwtDir;	// Dir conntaing DWTs
 	int dwtLen;		// Length of dwt analysis
 	char *ratFile;	// File containg ratios
 	int numRat;		// Number of ratios to calculate
 	char *anlzChoice;
-	// int genMode; 	// 0:train, 1:human
-
+	
 	if(argc != 8){
 		printf(
 			"Usage: ./train.out peakDir numPeak dwtDir dwtLen ratFile numRat anlzChoice\n"
@@ -57,21 +50,14 @@ int main(int argc, char *argv[]){
 	
 	// Argument parsing
 
-	// sigDir = argv[1];
-	// numSig = atoi(argv[2]);
 	peakDir = argv[1];
 	numPeak = atoi(argv[2]);
-	// sigTh = atof(argv[4]);
-	// maxZero = atoi(argv[5]);
-	// minSigLen = atoi(argv[6]);
-	// sigPad = atof(argv[7]);
 	dwtDir = argv[3];
 	dwtLen = atoi(argv[4]);
 	ratFile = argv[5];
 	numRat = atoi(argv[6]);
 	anlzChoice = argv[7];
-	// genMode = atoi(argv[13]);
-
+	
 
 	FILE *ratFilePtr = fopen(ratFile, "w");
 
