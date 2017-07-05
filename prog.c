@@ -173,7 +173,7 @@ int main(int argc, char *argv[]){
 			else if(genMode==0)
 				fprintf(ratFilePtr, "%d", sigType);
 			for(int i_numRat=0; i_numRat<numRat; i_numRat++)
-				fprintf(ratFilePtr, " %d:%f", i_numRat, rat[i_numRat]);
+				fprintf(ratFilePtr, " %d:%f", i_numRat+1, rat[i_numRat]);
 			fprintf(ratFilePtr, "\n");
 
 
