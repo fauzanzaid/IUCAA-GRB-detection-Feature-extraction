@@ -80,7 +80,8 @@ int main(int argc, char *argv[]){
 	for(int i_numSig=0; i_numSig<numSig; i_numSig++){
 		char sigFile[128];	// Name of current signal file
 		sprintf(sigFile, "%s/%d.txt", sigDir, i_numSig);
-		printf("Reading from %s\n", sigFile);
+		printf("Reading from %s\t%d of %d\r", sigFile, i_numSig+1, numSig);
+		fflush(stdout);
 		FILE *sigFilePtr = fopen(sigFile, "r");
 
 		// Read signal
@@ -205,6 +206,8 @@ int main(int argc, char *argv[]){
 	}
 
 	fclose(ratFilePtr);
+
+	printf("\nDone\n");
 
 	return 0;
 }

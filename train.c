@@ -104,7 +104,7 @@ int main(int argc, char *argv[]){
 		ratioFixed_DWTAnlz(dwt, dwtLen, rat, numRat);
 		fprintf(ratFilePtr, "%d", peakClass);
 		for(int i_numRat=0; i_numRat<numRat; i_numRat++)
-			fprintf(ratFilePtr, " %d:%f", i_numRat, rat[i_numRat]);
+			fprintf(ratFilePtr, " %d:%f", i_numRat+1, rat[i_numRat]);
 		fprintf(ratFilePtr, "\n");
 
 
