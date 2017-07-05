@@ -135,8 +135,8 @@ int main(int argc, char *argv[]){
 
 			int sigNewLen = dwtLen;
 			float *sigNew = malloc(sigNewLen*sizeof(float));	// Resized signal
-			cubic_Intrpl(sig+peakIdx, peakLen, sigNew, sigNewLen);
-			// linear_Intrpl(sig+peakIdx, peakLen, sigNew, sigNewLen);
+			// cubic_Intrpl(sig+peakIdx, peakLen, sigNew, sigNewLen);
+			linear_Intrpl(sig+peakIdx, peakLen, sigNew, sigNewLen);
 
 
 			// Write peak signal to file
@@ -167,7 +167,8 @@ int main(int argc, char *argv[]){
 
 			// Output to ratio file
 			float rat[numRat];
-			ratioFixed_DWTAnlz(dwt, dwtLen, rat, numRat);
+			// ratioFixed_DWTAnlz(dwt, dwtLen, rat, numRat);
+			normalize_DWTAnlz(dwt, dwtLen, rat, numRat);
 			if(genMode==1)
 				fprintf(ratFilePtr, "%d\t%d\t%d\t%d\t%d\t", i_numSig, i_numPeak, peakIdx, peakLen, sigType);
 			else if(genMode==0)
