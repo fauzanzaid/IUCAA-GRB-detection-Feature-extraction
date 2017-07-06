@@ -19,4 +19,4 @@ train.out : train.o $(OBJS)
 clean :
 	rm -f *.o
 	rm -f $(TARGET)
-	rm -f train
+	rm -f train.out
