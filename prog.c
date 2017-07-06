@@ -81,7 +81,7 @@ int main(int argc, char *argv[]){
 	for(int i_numSig=0; i_numSig<numSig; i_numSig++){
 		char sigFile[128];	// Name of current signal file
 		sprintf(sigFile, "%s/%d.txt", sigDir, i_numSig);
-		printf("\33[2K\rReading from %s\t%d of %d", sigFile, i_numSig+1, numSig); // \33[2K\r erases current line and does carriage return
+		printf("\33[2K\r%d of %d\t%s\t", i_numSig+1, numSig, sigFile); // \33[2K\r erases current line and does carriage return
 		fflush(stdout);
 		FILE *sigFilePtr = fopen(sigFile, "r");
 
