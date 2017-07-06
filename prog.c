@@ -36,19 +36,19 @@ void printbv(BitVec *bv, float *sig){
 
 int main(int argc, char *argv[]){
 
-	char *sigDir;	// Dir containing signal files n.txt
-	int numSig;		// Number of sigals in the dir
-	char *peakDir;	// Dir to create dwt files
-	float sigTh;	// th*sigma for thresholding of signal
-	int maxZero;	// Max length of holes in a signal
-	int minSigLen;	// Min length of a valid signal
-	float sigPad;	// Added padding L/R to sig before dwt
-	char *dwtDir;	// Dir conntaing DWTs
-	int dwtLen;		// Length of dwt analysis
-	char *ratFile;	// File containg ratios
-	int numRat;		// Number of ratios to calculate
+	char *sigDir;		// Dir containing signal files n.txt
+	int numSig;			// Number of sigals in the dir
+	char *peakDir;		// Dir to create dwt files
+	float sigTh;		// th*sigma for thresholding of signal
+	int maxZero;		// Max length of holes in a signal
+	int minSigLen;		// Min length of a valid signal
+	float sigPadRatio;	// Added padding L/R to sig before dwt
+	char *dwtDir;		// Dir conntaing DWTs
+	int dwtLen;			// Length of dwt analysis
+	char *ratFile;		// File containg ratios
+	int numRat;			// Number of ratios to calculate
 	char *anlzChoice;
-	int genMode; 	// 0:train, 1:human
+	int genMode; 		// 0:train, 1:human
 
 	if(argc != 14){
 		printf("sigDir numSig peakDir sigTh maxZero minSigLen sigPad dwtDir dwtLen ratFile numRat anlzChoice genMode\n");
@@ -63,7 +63,7 @@ int main(int argc, char *argv[]){
 	sigTh = atof(argv[4]);
 	maxZero = atoi(argv[5]);
 	minSigLen = atoi(argv[6]);
-	sigPad = atof(argv[7]);
+	sigPadRatio = atof(argv[7]);
 	dwtDir = argv[8];
 	dwtLen = atoi(argv[9]);
 	ratFile = argv[10];
@@ -80,7 +80,7 @@ int main(int argc, char *argv[]){
 	for(int i_numSig=0; i_numSig<numSig; i_numSig++){
 		char sigFile[128];	// Name of current signal file
 		sprintf(sigFile, "%s/%d.txt", sigDir, i_numSig);
-		printf("Reading from %s\t%d of %d\r", sigFile, i_numSig+1, numSig);
+		printf("\33[2K\rReading from %s\t%d of %d", sigFile, i_numSig+1, numSig); // \33[2K\r erases current line and does carriage return
 		fflush(stdout);
 		FILE *sigFilePtr = fopen(sigFile, "r");
 
@@ -123,6 +123,8 @@ int main(int argc, char *argv[]){
 			int peakLen;
 			getNext_BitVec(bv,1,&iter,&peakIdx,&peakLen);	// Get peak idx and len
 
+
+			int sigPad = roundf(sigPadRatio*peakLen);	// Convert ratio to absolute size
 			peakIdx -= sigPad;	// Add padding to signal
 			peakLen += 2*sigPad;
 			if(peakIdx < 0)	// Bound check L
