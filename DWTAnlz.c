@@ -199,7 +199,13 @@ void sigCoef_DWTAnlz(float *dwt, int n, float k, int *nsig, int **idxsig){
 	*idxsig = idxbuf;
 }
 
-void ratioFixed_DWTAnlz(float* dwt, int n, float *ratio, int nRatio){
+
+void ratioFixed1_DWTAnlz(float* dwt, int n, float *ratio, int nRatio){
+	for(int i=0; i<nRatio; i++)
+		ratio[i] = dwt[i+2]/dwt[1];
+}
+
+void ratioFixed2_DWTAnlz(float* dwt, int n, float *ratio, int nRatio){
 	ratio[0] = dwt[1]/dwt[2];
 	for(int i=1; i<nRatio; i++)
 		ratio[i] = dwt[i+2]/dwt[2];
