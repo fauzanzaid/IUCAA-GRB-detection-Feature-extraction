@@ -19,7 +19,7 @@ void sigCoef_DWTAnlz(float *dwt, int n, float k, int *nsig, int **idxsig);
 void ratioFixed1_DWTAnlz(float* dwt, int n, float *ratio, int nRatio);
 void ratioFixed2_DWTAnlz(float* dwt, int n, float *ratio, int nRatio);
 void ratioMoving_DWTAnlz(float* dwt, int n, float *ratio, int nRatio);
-void normalize_DWTAnlz(float* dwt, int n, float *norm, int nNorm);
+void normalize_DWTAnlz(float* dwt, int n, float *norm, int nNorm, int k);
 
 int jkFromIdx_DWTAnlz(int idx, int *j, int *k);
 int jtFromIdx_DWTAnlz(int idx, int n, int *j, int *t, int *tmin, int *tmax);
