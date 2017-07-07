@@ -172,7 +172,7 @@ int main(int argc, char *argv[]){
 			float rat[numRat];
 			// ratioFixed1_DWTAnlz(dwt, dwtLen, rat, numRat);
 			// ratioFixed2_DWTAnlz(dwt, dwtLen, rat, numRat);
-			normalize_DWTAnlz(dwt, dwtLen, rat, numRat);
+			normalize_DWTAnlz(dwt, dwtLen, rat, numRat, 20);
 			if(genMode==1)
 				fprintf(ratFilePtr, "%d\t%d\t%d\t%d\t%d\t", i_numSig, i_numPeak, peakIdx, peakLen, sigType);
 			else if(genMode==0)
@@ -212,7 +212,7 @@ int main(int argc, char *argv[]){
 
 	fclose(ratFilePtr);
 
-	printf("\nDone\n");
+	printf("\tDone\n");
 
 	return 0;
 }

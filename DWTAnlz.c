@@ -216,8 +216,8 @@ void ratioMoving_DWTAnlz(float* dwt, int n, float *ratio, int nRatio){
 		ratio[i] = dwt[i+2]/dwt[i+1];
 }
 
-void normalize_DWTAnlz(float* dwt, int n, float *norm, int nNorm){
-	float factor = n/dwt[0];
+void normalize_DWTAnlz(float* dwt, int n, float *norm, int nNorm, int k){
+	float factor = k/dwt[0];
 	for(int i=0; i<nNorm; i++)
 		norm[i] = dwt[i+1]*factor;
 }
