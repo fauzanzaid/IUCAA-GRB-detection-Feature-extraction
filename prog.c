@@ -6,6 +6,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <getopt.h>
 
 #include "BitVec.h"
 #include "DaubDWT.h"
@@ -39,41 +40,122 @@ int main(int argc, char *argv[]){
 
 	char *sigDir;		// Dir containing signal files n.txt
 	int numSig;			// Number of sigals in the dir
-	char *peakDir;		// Dir to create dwt files
+	char *peakDir;		// p Dir to create dwt files
 	float sigTh;		// th*sigma for thresholding of signal
 	int maxZero;		// Max length of holes in a signal
-	int minSigLen;		// Min length of a valid signal
+	int minSigLen;		// l Min length of a valid signal
 	float sigPadRatio;	// Added padding L/R to sig before dwt
-	char *dwtDir;		// Dir conntaing DWTs
+	char *dwtDir;		// d Dir conntaing DWTs
 	int dwtLenMin;		// Length of dwt analysis Min
 	int dwtLenMax;		// Length of dwt analysis Max
 	char *ratFile;		// File containg ratios
-	int numRat;			// Number of ratios to calculate
-	char *anlzChoice;
+	int numRat;			// r Number of ratios to calculate
+	char *anlzChoice;	// t
 	int genMode; 		// 0:train, 1:human
 
-	if(argc != 15){
-		printf("sigDir numSig peakDir sigTh maxZero minSigLen sigPad dwtDir dwtLenMin dwtLenMax ratFile numRat anlzChoice genMode\n");
-		return 0;
-	}
+
+
+	// Default values
+
+	peakDir = NULL;
+	sigTh = 2;
+	maxZero = 4;
+	minSigLen = 12;
+	sigPadRatio = 0.5;
+	dwtDir = NULL;
+	dwtLenMin = 16;
+	dwtLenMax = 512;
+	numRat = 7;
+	anlzChoice = "haar";
+
 	
+
 	// Argument parsing
 
-	sigDir = argv[1];
-	numSig = atoi(argv[2]);
-	peakDir = argv[3];
-	sigTh = atof(argv[4]);
-	maxZero = atoi(argv[5]);
-	minSigLen = atoi(argv[6]);
-	sigPadRatio = atof(argv[7]);
-	dwtDir = argv[8];
-	dwtLenMin = atoi(argv[9]);
-	dwtLenMax = atoi(argv[10]);
-	ratFile = argv[11];
-	numRat = atoi(argv[12]);
-	anlzChoice = argv[13];
-	genMode = atoi(argv[14]);
+	int option;
 
+	while(1){
+
+		static struct option lOpts[] = {
+			{"peakdir", required_argument, 0, 256},	// Start range at 256 to avoid ASCII space
+			{"threshold", required_argument, 0, 257},
+			{"maxzero", required_argument, 0, 258},
+			{"minlength", required_argument, 0, 259},
+			{"padratio", required_argument, 0, 260},
+			{"dwtdir", required_argument, 0, 261},
+			{"dwtminlen", required_argument, 0, 262},
+			{"dwtmaxlen", required_argument, 0, 263},
+			{"trasform", required_argument, 0, 264},
+			{"features", required_argument, 0, 265},
+			{0,	0,	0,	0}	
+		};
+
+		option = getopt_long(argc, argv, "k:l:p:d:t:f:", lOpts, 0);
+
+		if(option == -1)	// No more options
+			break;
+
+		switch(option){
+			case 256 :
+			case 'k' :
+				peakDir = optarg;
+				break;
+
+			case 257 :
+				sigTh = atof(optarg);
+				break;
+
+			case 258 :
+				maxZero = atoi(optarg);
+				break;
+
+			case 259 :
+			case 'l' :
+				minSigLen = atoi(optarg);
+				break;
+
+			case 260 :
+			case 'p' :
+				sigPadRatio = atof(optarg);
+				break;
+			
+			case 261 :
+			case 'd' :
+				dwtDir = optarg;
+				break;
+
+			case 262 :
+				dwtLenMin = atoi(optarg);
+				break;
+
+			case 263 :
+				dwtLenMax = atoi(optarg);
+				break;
+
+			case 264 :
+			case 't' :
+				anlzChoice = optarg;
+				break;
+
+			case 265 :
+			case 'f' :
+				numRat = atoi(optarg);
+				break;
+
+		}
+	}
+
+	if(argc-optind!=3){
+		printf("Usage: a.out [options] signal_directory number_of_signals output_file\n");
+		return 0;
+	}
+
+	printf("%s\n", peakDir);
+
+	sigDir = argv[optind];
+	numSig = atoi(argv[optind+1]);
+	ratFile = argv[optind+2];
+	genMode = 0;
 
 	FILE *ratFilePtr = fopen(ratFile, "w");
 
@@ -151,21 +233,23 @@ int main(int argc, char *argv[]){
 			// linear_Intrpl(sig+peakIdx, peakLen, sigNew, sigNewLen);
 
 
+
 			// Write peak signal to file
-			char peakFile[128];	// Name of current DWT file
-			sprintf(peakFile, "%s/%d_%d.txt", peakDir, i_numSig, i_numPeak);
-			// printf("Writing to %s\n", peakFile);
-			FILE *peakFilePtr = fopen(peakFile, "w");
+			if(peakDir != NULL){
+				char peakFile[128];	// Name of current peak file
+				sprintf(peakFile, "%s/%d_%d.txt", peakDir, i_numSig, i_numPeak);
+				// printf("Writing to %s\n", peakFile);
+				FILE *peakFilePtr = fopen(peakFile, "w");
 
-			fprintf(peakFilePtr, "%d\n", sigNewLen);
-			for(int i=0; i<sigNewLen; i++)
-				fprintf(peakFilePtr, "%f\n", sigNew[i]);
+				fprintf(peakFilePtr, "%d\n", sigNewLen);
+				for(int i=0; i<sigNewLen; i++)
+					fprintf(peakFilePtr, "%f\n", sigNew[i]);
 
-			fclose(peakFilePtr);
+				fclose(peakFilePtr);
+			}
 
 
 			float *dwt = malloc(dwtLen*sizeof(float));
-
 
 			if( strcmp(anlzChoice, "haar")==0 )
 				coef_1D_HaarDWT(sigNew, dwt, dwtLen);
@@ -198,16 +282,19 @@ int main(int argc, char *argv[]){
 
 
 			// Output DWT
-			char dwtFile[128];	// Name of current DWT file
-			sprintf(dwtFile, "%s/%d_%d.txt", dwtDir, i_numSig, i_numPeak);
-			// printf("Writing to %s\n", dwtFile);
-			FILE *dwtFilePtr = fopen(dwtFile, "w");
+			if(dwtDir!=NULL){
+				char dwtFile[128];	// Name of current DWT file
+				sprintf(dwtFile, "%s/%d_%d.txt", dwtDir, i_numSig, i_numPeak);
+				// printf("Writing to %s\n", dwtFile);
+				FILE *dwtFilePtr = fopen(dwtFile, "w");
+	
+				fprintf(dwtFilePtr, "%d\n", dwtLen);
+				for(int i=0; i<dwtLen; i++)
+					fprintf(dwtFilePtr, "%f\n", dwt[i]);
+				
+				fclose(dwtFilePtr);
+			}
 
-			fprintf(dwtFilePtr, "%d\n", dwtLen);
-			for(int i=0; i<dwtLen; i++)
-				fprintf(dwtFilePtr, "%f\n", dwt[i]);
-			
-			fclose(dwtFilePtr);
 
 			free(sigNew);
 			free(dwt);
