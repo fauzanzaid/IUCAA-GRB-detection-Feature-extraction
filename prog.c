@@ -45,14 +45,15 @@ int main(int argc, char *argv[]){
 	int minSigLen;		// Min length of a valid signal
 	float sigPadRatio;	// Added padding L/R to sig before dwt
 	char *dwtDir;		// Dir conntaing DWTs
-	int dwtLen;			// Length of dwt analysis
+	int dwtLenMin;		// Length of dwt analysis Min
+	int dwtLenMax;		// Length of dwt analysis Max
 	char *ratFile;		// File containg ratios
 	int numRat;			// Number of ratios to calculate
 	char *anlzChoice;
 	int genMode; 		// 0:train, 1:human
 
-	if(argc != 14){
-		printf("sigDir numSig peakDir sigTh maxZero minSigLen sigPad dwtDir dwtLen ratFile numRat anlzChoice genMode\n");
+	if(argc != 15){
+		printf("sigDir numSig peakDir sigTh maxZero minSigLen sigPad dwtDir dwtLenMin dwtLenMax ratFile numRat anlzChoice genMode\n");
 		return 0;
 	}
 	
@@ -66,11 +67,12 @@ int main(int argc, char *argv[]){
 	minSigLen = atoi(argv[6]);
 	sigPadRatio = atof(argv[7]);
 	dwtDir = argv[8];
-	dwtLen = atoi(argv[9]);
-	ratFile = argv[10];
-	numRat = atoi(argv[11]);
-	anlzChoice = argv[12];
-	genMode = atoi(argv[13]);
+	dwtLenMin = atoi(argv[9]);
+	dwtLenMax = atoi(argv[10]);
+	ratFile = argv[11];
+	numRat = atoi(argv[12]);
+	anlzChoice = argv[13];
+	genMode = atoi(argv[14]);
 
 
 	FILE *ratFilePtr = fopen(ratFile, "w");
@@ -135,6 +137,13 @@ int main(int argc, char *argv[]){
 
 			// DEBUG
 			// printf("%d %d\n", peakIdx, peakLen);
+
+			int dwtLen = 1 << (int)ceilf(log2f(peakLen));	// Round dwtLen to the next pow of 2
+			if(dwtLen < dwtLenMin)
+				dwtLen = dwtLenMin;
+			else if(dwtLen > dwtLenMax)
+				dwtLen = dwtLenMax;
+
 
 			int sigNewLen = dwtLen;
 			float *sigNew = malloc(sigNewLen*sizeof(float));	// Resized signal
