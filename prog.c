@@ -37,6 +37,25 @@ void printbv(BitVec *bv, float *sig){
 }
 
 
+void printUsageError(){
+	printf(
+			"Usage: a.out [options] signal_directory output_file\n"
+			"options:\n"
+			"--numsignals  or -m  (def: All)\n"
+			"--peakdir     or -p  (def: None)\n"
+			"--threshold          (def: 2)\n"
+			"--maxzero            (def: 4)\n"
+			"--minlength   or -l  (def: 12)\n"
+			"--padratio    or -r  (def: 0.5)\n"
+			"--dwtdir      or -d  (def: None)\n"
+			"--dwtminlen          (def: 16)\n"
+			"--dwtmaxlen          (def: 512)\n"
+			"--trasform    or -t  (def: haar) : Transform choice \"haar\", \"D4\", \"D6\", \"D8\"\n"
+			"--numfeatures or -n  (def: 7)    : Number of features to include in output_file\n"
+		);
+}
+
+
 int main(int argc, char *argv[]){
 
 	char *sigDir;		//   Dir containing signal files n.txt
@@ -52,7 +71,6 @@ int main(int argc, char *argv[]){
 	char *ratFile;		//   File containg ratios
 	int numRat;			// n Number of ratios to calculate
 	char *anlzChoice;	// t
-	int genMode; 		//   0:train, 1:human
 
 
 
@@ -94,18 +112,18 @@ int main(int argc, char *argv[]){
 		};
 
 		static struct option lOpts[] = {
-			{"numsignals", required_argument, 0, OPT_numSig},
-			{"peakdir", required_argument, 0, OPT_peakDir},
-			{"threshold", required_argument, 0, OPT_sigTh},
-			{"maxzero", required_argument, 0, OPT_maxZero},
-			{"minlength", required_argument, 0, OPT_minSigLen},
-			{"padratio", required_argument, 0, OPT_sigPadRatio},
-			{"dwtdir", required_argument, 0, OPT_dwtDir},
-			{"dwtminlen", required_argument, 0, OPT_dwtLenMin},
-			{"dwtmaxlen", required_argument, 0, OPT_dwtLenMax},
-			{"trasform", required_argument, 0, OPT_anlzChoice},
+			{"numsignals", 	required_argument, 0, OPT_numSig},
+			{"peakdir", 	required_argument, 0, OPT_peakDir},
+			{"threshold", 	required_argument, 0, OPT_sigTh},
+			{"maxzero", 	required_argument, 0, OPT_maxZero},
+			{"minlength", 	required_argument, 0, OPT_minSigLen},
+			{"padratio", 	required_argument, 0, OPT_sigPadRatio},
+			{"dwtdir", 		required_argument, 0, OPT_dwtDir},
+			{"dwtminlen", 	required_argument, 0, OPT_dwtLenMin},
+			{"dwtmaxlen", 	required_argument, 0, OPT_dwtLenMax},
+			{"trasform", 	required_argument, 0, OPT_anlzChoice},
 			{"numfeatures", required_argument, 0, OPT_numRat},
-			{0,	0,	0,	0}	
+			{0,	0,	0,	0}
 		};
 
 		option = getopt_long(argc, argv, "m:p:l:r:d:n:t:", lOpts, 0);
@@ -164,6 +182,9 @@ int main(int argc, char *argv[]){
 			case 'n' :
 				numRat = atoi(optarg);
 				break;
+			
+			default:
+				printUsageError();
 		}
 	}
 
@@ -172,15 +193,12 @@ int main(int argc, char *argv[]){
 	// Arguments parsing
 
 	if(argc-optind!=2){
-		printf("Usage: a.out [options] signal_directory number_of_signals output_file\n");
+		printUsageError();
 		return 0;
 	}
 
 	sigDir = argv[optind];
 	ratFile = argv[optind+1];
-	genMode = 0;
-
-	FILE *ratFilePtr = fopen(ratFile, "w");
 
 
 
@@ -198,6 +216,8 @@ int main(int argc, char *argv[]){
 	}
 
 
+
+	FILE *ratFilePtr = fopen(ratFile, "w");
 
 	// Loop through all signal files
 
@@ -305,13 +325,10 @@ int main(int argc, char *argv[]){
 			// ratioFixed1_DWTAnlz(dwt, dwtLen, rat, numRat);
 			// ratioFixed2_DWTAnlz(dwt, dwtLen, rat, numRat);
 			normalize_DWTAnlz(dwt, dwtLen, rat, numRat, 20);
-			if(genMode==1)
-				fprintf(ratFilePtr, "%d\t%d\t%d\t%d\t%d\t", i_numSig, i_numPeak, peakIdx, peakLen, sigType);
-			else if(genMode==0)
-				fprintf(ratFilePtr, "%d", sigType);
+			fprintf(ratFilePtr, "%d ", sigType);
 			for(int i_numRat=0; i_numRat<numRat; i_numRat++)
-				fprintf(ratFilePtr, " %d:%f", i_numRat+1, rat[i_numRat]);
-			fprintf(ratFilePtr, "\n");
+				fprintf(ratFilePtr, "%d:%+f\t", i_numRat+1, rat[i_numRat]);
+			fprintf(ratFilePtr, "%%\t%d\t%d\t%d\t%d\t%d\n", i_numSig, i_numPeak, sigType, peakIdx, peakLen);
 
 
 			// // DEBUG
