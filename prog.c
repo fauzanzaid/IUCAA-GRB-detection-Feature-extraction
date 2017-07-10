@@ -7,6 +7,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <getopt.h>
+#include <dirent.h>
 
 #include "BitVec.h"
 #include "DaubDWT.h"
@@ -107,7 +108,7 @@ int main(int argc, char *argv[]){
 			{0,	0,	0,	0}	
 		};
 
-		option = getopt_long(argc, argv, "p:l:r:d:n:t:", lOpts, 0);
+		option = getopt_long(argc, argv, "m:p:l:r:d:n:t:", lOpts, 0);
 
 		if(option == -1)	// No more options
 			break;
@@ -170,17 +171,32 @@ int main(int argc, char *argv[]){
 
 	// Arguments parsing
 
-	if(argc-optind!=3){
+	if(argc-optind!=2){
 		printf("Usage: a.out [options] signal_directory number_of_signals output_file\n");
 		return 0;
 	}
 
 	sigDir = argv[optind];
-	numSig = atoi(argv[optind+1]);
-	ratFile = argv[optind+2];
+	ratFile = argv[optind+1];
 	genMode = 0;
 
 	FILE *ratFilePtr = fopen(ratFile, "w");
+
+
+
+	// Find number of signal files if not specified
+
+	if(numSig == 0){
+		DIR *dirPtr;
+		struct dirent *entry;
+
+		dirPtr = opendir(sigDir);
+		while( (entry=readdir(dirPtr)) != NULL ){
+			if(entry->d_type == DT_REG)
+				numSig++;
+		}
+	}
+
 
 
 	// Loop through all signal files
