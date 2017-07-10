@@ -39,7 +39,7 @@ void printbv(BitVec *bv, float *sig){
 int main(int argc, char *argv[]){
 
 	char *sigDir;		//   Dir containing signal files n.txt
-	int numSig;			//   Number of sigals in the dir
+	int numSig;			// m Number of sigals in the dir
 	char *peakDir;		// p Dir to create peak files
 	float sigTh;		//   th*sigma for thresholding of signal
 	int maxZero;		//   Max length of holes in a signal
@@ -57,12 +57,13 @@ int main(int argc, char *argv[]){
 
 	// Default values
 
-	peakDir = NULL;
+	numSig = 0;			// Also flag
+	peakDir = NULL;		// Also flag
 	sigTh = 2;
 	maxZero = 4;
 	minSigLen = 12;
 	sigPadRatio = 0.5;
-	dwtDir = NULL;
+	dwtDir = NULL;		// Also flag
 	dwtLenMin = 16;
 	dwtLenMax = 512;
 	numRat = 7;
@@ -76,17 +77,33 @@ int main(int argc, char *argv[]){
 
 	while(1){
 
+		// Start range at 256 to avoid ASCII space
+		enum {
+			OPT_numSig = 256,
+			OPT_peakDir,
+			OPT_sigTh,
+			OPT_maxZero,
+			OPT_minSigLen,
+			OPT_sigPadRatio,
+			OPT_dwtDir,
+			OPT_dwtLenMin,
+			OPT_dwtLenMax,
+			OPT_numRat,
+			OPT_anlzChoice
+		};
+
 		static struct option lOpts[] = {
-			{"peakdir", required_argument, 0, 256},	// Start range at 256 to avoid ASCII space
-			{"threshold", required_argument, 0, 257},
-			{"maxzero", required_argument, 0, 258},
-			{"minlength", required_argument, 0, 259},
-			{"padratio", required_argument, 0, 260},
-			{"dwtdir", required_argument, 0, 261},
-			{"dwtminlen", required_argument, 0, 262},
-			{"dwtmaxlen", required_argument, 0, 263},
-			{"trasform", required_argument, 0, 264},
-			{"features", required_argument, 0, 265},
+			{"numsignals", required_argument, 0, OPT_numSig},
+			{"peakdir", required_argument, 0, OPT_peakDir},
+			{"threshold", required_argument, 0, OPT_sigTh},
+			{"maxzero", required_argument, 0, OPT_maxZero},
+			{"minlength", required_argument, 0, OPT_minSigLen},
+			{"padratio", required_argument, 0, OPT_sigPadRatio},
+			{"dwtdir", required_argument, 0, OPT_dwtDir},
+			{"dwtminlen", required_argument, 0, OPT_dwtLenMin},
+			{"dwtmaxlen", required_argument, 0, OPT_dwtLenMax},
+			{"trasform", required_argument, 0, OPT_anlzChoice},
+			{"numfeatures", required_argument, 0, OPT_numRat},
 			{0,	0,	0,	0}	
 		};
 
@@ -96,52 +113,56 @@ int main(int argc, char *argv[]){
 			break;
 
 		switch(option){
-			case 256 :
+			case OPT_numSig :
+			case 'm' :
+				numSig = atoi(optarg);
+				break;
+
+			case OPT_peakDir :
 			case 'p' :
 				peakDir = optarg;
 				break;
 
-			case 257 :
+			case OPT_sigTh :
 				sigTh = atof(optarg);
 				break;
 
-			case 258 :
+			case OPT_maxZero :
 				maxZero = atoi(optarg);
 				break;
 
-			case 259 :
+			case OPT_minSigLen :
 			case 'l' :
 				minSigLen = atoi(optarg);
 				break;
 
-			case 260 :
+			case OPT_sigPadRatio :
 			case 'r' :
 				sigPadRatio = atof(optarg);
 				break;
 			
-			case 261 :
+			case OPT_dwtDir :
 			case 'd' :
 				dwtDir = optarg;
 				break;
 
-			case 262 :
+			case OPT_dwtLenMin :
 				dwtLenMin = atoi(optarg);
 				break;
 
-			case 263 :
+			case OPT_dwtLenMax :
 				dwtLenMax = atoi(optarg);
 				break;
 
-			case 264 :
+			case OPT_anlzChoice :
 			case 't' :
 				anlzChoice = optarg;
 				break;
 
-			case 265 :
+			case OPT_numRat :
 			case 'n' :
 				numRat = atoi(optarg);
 				break;
-
 		}
 	}
 
