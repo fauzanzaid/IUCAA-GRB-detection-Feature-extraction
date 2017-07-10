@@ -38,20 +38,20 @@ void printbv(BitVec *bv, float *sig){
 
 int main(int argc, char *argv[]){
 
-	char *sigDir;		// Dir containing signal files n.txt
-	int numSig;			// Number of sigals in the dir
-	char *peakDir;		// p Dir to create dwt files
-	float sigTh;		// th*sigma for thresholding of signal
-	int maxZero;		// Max length of holes in a signal
+	char *sigDir;		//   Dir containing signal files n.txt
+	int numSig;			//   Number of sigals in the dir
+	char *peakDir;		// p Dir to create peak files
+	float sigTh;		//   th*sigma for thresholding of signal
+	int maxZero;		//   Max length of holes in a signal
 	int minSigLen;		// l Min length of a valid signal
-	float sigPadRatio;	// Added padding L/R to sig before dwt
+	float sigPadRatio;	// r Added padding L/R to sig before dwt
 	char *dwtDir;		// d Dir conntaing DWTs
-	int dwtLenMin;		// Length of dwt analysis Min
-	int dwtLenMax;		// Length of dwt analysis Max
-	char *ratFile;		// File containg ratios
-	int numRat;			// r Number of ratios to calculate
+	int dwtLenMin;		//   Length of dwt analysis Min
+	int dwtLenMax;		//   Length of dwt analysis Max
+	char *ratFile;		//   File containg ratios
+	int numRat;			// n Number of ratios to calculate
 	char *anlzChoice;	// t
-	int genMode; 		// 0:train, 1:human
+	int genMode; 		//   0:train, 1:human
 
 
 
@@ -70,7 +70,7 @@ int main(int argc, char *argv[]){
 
 	
 
-	// Argument parsing
+	// Optoins parsing
 
 	int option;
 
@@ -90,14 +90,14 @@ int main(int argc, char *argv[]){
 			{0,	0,	0,	0}	
 		};
 
-		option = getopt_long(argc, argv, "k:l:p:d:t:f:", lOpts, 0);
+		option = getopt_long(argc, argv, "p:l:r:d:n:t:", lOpts, 0);
 
 		if(option == -1)	// No more options
 			break;
 
 		switch(option){
 			case 256 :
-			case 'k' :
+			case 'p' :
 				peakDir = optarg;
 				break;
 
@@ -115,7 +115,7 @@ int main(int argc, char *argv[]){
 				break;
 
 			case 260 :
-			case 'p' :
+			case 'r' :
 				sigPadRatio = atof(optarg);
 				break;
 			
@@ -138,19 +138,21 @@ int main(int argc, char *argv[]){
 				break;
 
 			case 265 :
-			case 'f' :
+			case 'n' :
 				numRat = atoi(optarg);
 				break;
 
 		}
 	}
 
+
+
+	// Arguments parsing
+
 	if(argc-optind!=3){
 		printf("Usage: a.out [options] signal_directory number_of_signals output_file\n");
 		return 0;
 	}
-
-	printf("%s\n", peakDir);
 
 	sigDir = argv[optind];
 	numSig = atoi(argv[optind+1]);
