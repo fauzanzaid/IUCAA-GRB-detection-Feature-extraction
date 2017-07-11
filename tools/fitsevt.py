@@ -22,7 +22,6 @@ for fname in fnames:
 		timeRange = hdulist[i].header["TSTOP"] - hdulist[i].header["TSTART"]
 		nBins = math.ceil(timeRange/binSize)
 		count = [0]*nBins
-		print(nBins)
 		
 		for event in hdulist[i].data:
 			if(event["ENERGY"]>=eLo or event["ENERGY"]<=eHi):
