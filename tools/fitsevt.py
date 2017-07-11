@@ -11,7 +11,6 @@ eLo = int(sys.argv[3])
 eHi = int(sys.argv[4])
 binSize = int(sys.argv[5])
 
-
 fnames = os.listdir(inputFolder)
 
 for fname in fnames:
@@ -30,7 +29,8 @@ for fname in fnames:
 
 
 		sigClass = 1
-		with open(outputFolder+"/{0}_{1}".format(fname,i),'w') as f:
+		outputFile = outputFolder+"/"+os.path.splitext(fname)[0]+"_Q{0}.txt".format(i)
+		with open(outputFile,'w') as f:
 			f.write("{0} {1}\n".format(nBins,sigClass))
 			for j in range(nBins):
 				f.write("{0}\n".format(count[j]))
