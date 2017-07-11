@@ -11,6 +11,9 @@ eLo = int(sys.argv[3])
 eHi = int(sys.argv[4])
 binSize = int(sys.argv[5])
 
+COL_TIME = 0
+COL_ENERGY = 11
+
 fnames = os.listdir(inputFolder)
 
 for fidx, fname in enumerate(fnames):
@@ -26,8 +29,8 @@ for fidx, fname in enumerate(fnames):
 		count = [0]*nBins
 		
 		for event in hdulist[i].data:
-			if(event["ENERGY"]>=eLo and event["ENERGY"]<=eHi):
-				index = math.floor( nBins*(event["Time"] - hdulist[i].header["TSTART"])/timeRange )
+			if(event[COL_ENERGY]>=eLo and event[COL_ENERGY]<=eHi):
+				index = math.floor( nBins*(event[COL_TIME] - hdulist[i].header["TSTART"])/timeRange )
 				count[index] += 1
 
 		# Remove leading and trailing 0s
