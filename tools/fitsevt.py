@@ -22,15 +22,18 @@ for fidx, fname in enumerate(fnames):
 
 	for i in range(1,5):
 
-		print("{0} of {1}\t{2} Q{3}".format(fidx, len(fnames), fname, i), end="\r")
+		print("{0} of {1} \t{2} Q{3}".format(fidx, len(fnames), fname, i), end="\r")
 
-		timeRange = hdulist[i].header["TSTOP"] - hdulist[i].header["TSTART"]
+		timeStart = hdulist[i].header["TSTART"]
+		timeStop = hdulist[i].header["TSTOP"]
+
+		timeRange = timeStop - timeStart
 		nBins = math.ceil(timeRange/binSize)
 		count = [0]*nBins
 		
 		for event in hdulist[i].data:
 			if(event[COL_ENERGY]>=eLo and event[COL_ENERGY]<=eHi):
-				index = math.floor( nBins*(event[COL_TIME] - hdulist[i].header["TSTART"])/timeRange )
+				index = math.floor( nBins*(event[COL_TIME] - timeStart)/timeRange )
 				count[index] += 1
 
 		# Remove leading and trailing 0s
