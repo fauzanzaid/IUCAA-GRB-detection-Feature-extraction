@@ -8,6 +8,7 @@
 #include <unistd.h>
 #include <getopt.h>
 #include <dirent.h>
+#include <limits.h>
 
 #include "BitVec.h"
 #include "DaubDWT.h"
@@ -200,10 +201,6 @@ int main(int argc, char *argv[]){
 	sigDir = argv[optind];
 	ratFile = argv[optind+1];
 
-
-
-	// Find number of signal files if not specified
-
 	if(numSig == 0){
 		DIR *dirPtr;
 		struct dirent *entry;
@@ -215,15 +212,25 @@ int main(int argc, char *argv[]){
 		}
 	}
 
+	DIR *dirPtr;
+	dirPtr = opendir(sigDir);
+	struct dirent *entPtr;
 
 
 	FILE *ratFilePtr = fopen(ratFile, "w");
 
+
 	// Loop through all signal files
 
-	for(int i_numSig=0; i_numSig<numSig; i_numSig++){
-		char sigFile[128];	// Name of current signal file
-		sprintf(sigFile, "%s/%d.txt", sigDir, i_numSig);
+	int i_numSig = 0;
+	while( (entPtr=readdir(dirPtr))!=NULL && i_numSig<numSig){
+
+		// Continue if entry is not a file
+		if(entPtr->d_type != DT_REG)
+			continue;
+
+		char sigFile[256];	// Name of current signal file
+		sprintf(sigFile, "%s/%s", sigDir, entPtr->d_name);
 		printf("\33[2K\r%d of %d\t%s\t", i_numSig+1, numSig, sigFile); // \33[2K\r erases current line and does carriage return
 		fflush(stdout);
 		FILE *sigFilePtr = fopen(sigFile, "r");
@@ -328,7 +335,7 @@ int main(int argc, char *argv[]){
 			fprintf(ratFilePtr, "%d ", sigType);
 			for(int i_numRat=0; i_numRat<numRat; i_numRat++)
 				fprintf(ratFilePtr, "%d:%+f ", i_numRat+1, rat[i_numRat]);
-			fprintf(ratFilePtr, "%%\t%d\t%d\t%d\t%d\t%d\n", i_numSig, i_numPeak, sigType, peakIdx, peakLen);
+			fprintf(ratFilePtr, "%%\t%s\t%d\t%d\t%d\t%d\n", sigFile, i_numPeak, sigType, peakIdx, peakLen);
 
 
 			// // DEBUG
@@ -360,8 +367,10 @@ int main(int argc, char *argv[]){
 		free_BitVec(bv);
 		free(sig);
 
+		i_numSig++;
 	}
 
+	closedir(dirPtr);
 	fclose(ratFilePtr);
 
 	printf("\tDone\n");
