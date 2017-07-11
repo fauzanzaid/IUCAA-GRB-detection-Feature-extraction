@@ -26,7 +26,7 @@ for fidx, fname in enumerate(fnames):
 		count = [0]*nBins
 		
 		for event in hdulist[i].data:
-			if(event["ENERGY"]>=eLo or event["ENERGY"]<=eHi):
+			if(event["ENERGY"]>=eLo and event["ENERGY"]<=eHi):
 				index = math.floor( nBins*(event["Time"] - hdulist[i].header["TSTART"])/timeRange )
 				count[index] += 1
 
