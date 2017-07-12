@@ -373,7 +373,7 @@ int main(int argc, char *argv[]){
 	closedir(dirPtr);
 	fclose(ratFilePtr);
 
-	printf("\tDone\n");
+	printf("\nDone\n");
 
 	return 0;
 }
