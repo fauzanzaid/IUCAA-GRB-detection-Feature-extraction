@@ -62,7 +62,7 @@ int main(int argc, char *argv[]){
 	char *sigDir;		//   Dir containing signal files n.txt
 	int numSig;			// m Number of sigals in the dir
 	char *peakDir;		// p Dir to create peak files
-	float sigTh;		//   th*sigma for thresholding of signal
+	float sigTh;		// h th*sigma for thresholding of signal
 	int maxZero;		//   Max length of holes in a signal
 	int minSigLen;		// l Min length of a valid signal
 	float sigPadRatio;	// r Added padding L/R to sig before dwt
@@ -127,7 +127,7 @@ int main(int argc, char *argv[]){
 			{0,	0,	0,	0}
 		};
 
-		option = getopt_long(argc, argv, "m:p:l:r:d:n:t:", lOpts, 0);
+		option = getopt_long(argc, argv, "m:p:h:l:r:d:n:t:", lOpts, 0);
 
 		if(option == -1)	// No more options
 			break;
@@ -144,6 +144,7 @@ int main(int argc, char *argv[]){
 				break;
 
 			case OPT_sigTh :
+			case 'h' :
 				sigTh = atof(optarg);
 				break;
 
