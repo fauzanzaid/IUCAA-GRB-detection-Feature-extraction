@@ -340,8 +340,8 @@ int main(int argc, char *argv[]){
 			normalize_DWTAnlz(dwt, dwtLen, rat, numRat, 20);
 			fprintf(ratFilePtr, "%d ", sigType);
 			for(int i_numRat=0; i_numRat<numRat; i_numRat++)
-				fprintf(ratFilePtr, "%d:%+f ", i_numRat+1, rat[i_numRat]);
-			fprintf(ratFilePtr, "%%\t%s\t%d\t%d\t%d\t%d\n", sigFile, i_numPeak, sigType, peakIdx, peakLen);
+				fprintf(ratFilePtr, "%d:%+10.6f ", i_numRat+1, rat[i_numRat]);
+			fprintf(ratFilePtr, "%%\t%s\t%d\t%d\t%d\t%d\t%d\n", sigFile,i_numSig, i_numPeak, sigType, peakIdx, peakLen);
 
 
 			// // DEBUG
