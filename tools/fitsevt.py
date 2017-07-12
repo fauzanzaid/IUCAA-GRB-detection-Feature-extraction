@@ -15,6 +15,7 @@ COL_TIME = 0
 COL_ENERGY = 11
 
 fnames = os.listdir(inputFolder)
+printString = ""
 
 for fidx, fname in enumerate(fnames):
 
@@ -49,3 +50,5 @@ for fidx, fname in enumerate(fnames):
 			f.write("{0} {1}\n".format(nBins,sigClass))
 			for value in count:
 				f.write("{0}\n".format(value))
+
+	hdulist.close()
