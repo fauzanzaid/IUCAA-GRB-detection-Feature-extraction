@@ -55,3 +55,5 @@ for fidx, fname in enumerate(fnames):
 				f.write("{0}\n".format(value))
 
 	hdulist.close()
+
+print("\nDone")
