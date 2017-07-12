@@ -59,19 +59,20 @@ void printUsageError(){
 
 int main(int argc, char *argv[]){
 
-	char *sigDir;		//   Dir containing signal files n.txt
-	int numSig;			// m Number of sigals in the dir
-	char *peakDir;		// p Dir to create peak files
-	float sigTh;		// h th*sigma for thresholding of signal
-	int maxZero;		//   Max length of holes in a signal
-	int minSigLen;		// l Min length of a valid signal
-	float sigPadRatio;	// r Added padding L/R to sig before dwt
-	char *dwtDir;		// d Dir conntaing DWTs
-	int dwtLenMin;		//   Length of dwt analysis Min
-	int dwtLenMax;		//   Length of dwt analysis Max
-	char *ratFile;		//   File containg ratios
-	int numRat;			// n Number of ratios to calculate
-	char *anlzChoice;	// t
+	char *sigDir;				//   Dir containing signal files n.txt
+	int numSig;					// m Number of sigals in the dir
+	char *peakDir;				// p Dir to create peak files
+	float sigTh;				// h th*sigma for thresholding of signal
+	int maxZero;				//   Max length of holes in a signal
+	int minSigLen;				// l Min length of a valid signal
+	float sigPadRatio;			// r Added padding L/R to sig before dwt
+	char *dwtDir;				// d Dir conntaing DWTs
+	int dwtLenMin;				//   Length of dwt analysis Min
+	int dwtLenMax;				//   Length of dwt analysis Max
+	char *ratFile;				//   File containg ratios
+	static int ratFileAppend;	//   Overwrite if 0, append if 1 (Flag)
+	int numRat;					// n Number of ratios to calculate
+	char *anlzChoice;			// t
 
 
 
@@ -86,6 +87,7 @@ int main(int argc, char *argv[]){
 	dwtDir = NULL;		// Also flag
 	dwtLenMin = 16;
 	dwtLenMax = 512;
+	ratFileAppend = 0;	// Flag
 	numRat = 7;
 	anlzChoice = "haar";
 
@@ -123,6 +125,7 @@ int main(int argc, char *argv[]){
 			{"dwtminlen", 	required_argument, 0, OPT_dwtLenMin},
 			{"dwtmaxlen", 	required_argument, 0, OPT_dwtLenMax},
 			{"trasform", 	required_argument, 0, OPT_anlzChoice},
+			{"append", 		no_argument, &ratFileAppend, 1},
 			{"numfeatures", required_argument, 0, OPT_numRat},
 			{0,	0,	0,	0}
 		};
@@ -217,7 +220,8 @@ int main(int argc, char *argv[]){
 	dirPtr = opendir(sigDir);
 	struct dirent *entPtr;
 
-
+	char fileMode[2] = "\0\0";
+	fileMode[0] = ratFileAppend?'w':'a';
 	FILE *ratFilePtr = fopen(ratFile, "w");
 
 
