@@ -44,7 +44,7 @@ void printUsageError(){
 			"options:\n"
 			"--numsignals  or -m  (def: All)\n"
 			"--peakdir     or -p  (def: None)\n"
-			"--threshold          (def: 2)\n"
+			"--threshold   or -h  (def: 2)\n"
 			"--maxzero            (def: 4)\n"
 			"--minlength   or -l  (def: 12)\n"
 			"--padratio    or -r  (def: 0.5)\n"
@@ -52,6 +52,7 @@ void printUsageError(){
 			"--dwtminlen          (def: 16)\n"
 			"--dwtmaxlen          (def: 512)\n"
 			"--trasform    or -t  (def: haar) : Transform choice \"haar\", \"D4\", \"D6\", \"D8\"\n"
+			"--append             (FLAG)      : Append to output_file rather than overwrite\n"
 			"--numfeatures or -n  (def: 7)    : Number of features to include in output_file\n"
 		);
 }
