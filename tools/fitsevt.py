@@ -23,7 +23,10 @@ for fidx, fname in enumerate(fnames):
 
 	for i in range(1,5):
 
-		print("{0} of {1} \t{2} Q{3}".format(fidx, len(fnames), fname, i), end="\r")
+		printStringLen = len(printString)
+		printString = "{0} of {1} \t{2} Q{3}".format(fidx, len(fnames), fname, i)
+		print(" "*printStringLen, end = "\r")
+		print(printString, end="\r")
 
 		timeStart = hdulist[i].header["TSTART"]
 		timeStop = hdulist[i].header["TSTOP"]
