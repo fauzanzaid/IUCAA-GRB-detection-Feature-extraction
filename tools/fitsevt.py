@@ -45,6 +45,7 @@ for fidx, fname in enumerate(fnames):
 			count.pop(0)
 		while count and count[-1] is 0:
 			count.pop(-1)
+		nBins = len(count)
 
 
 		sigClass = 1
