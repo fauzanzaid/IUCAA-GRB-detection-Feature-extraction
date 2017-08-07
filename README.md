@@ -80,3 +80,10 @@ The output file is compatible with LIBSVM format. Each line also contains a comm
 * ```--append```: If the application run with this option, the output file is appended to, instead of being created anew.
 
 * ```--numfeatures``` or ```-n```: Specify the number of features to output in ```output_file```. If unspecified, the default value of ```7``` is assigned.
+
+
+
+## Issues
+
+* Signals of interest must span at least four bins.
+* The implementations of the daubechies DWT are buggy and should not relied upon.
