@@ -53,3 +53,30 @@ The output file is compatible with LIBSVM format. Each line also contains a comm
 * ```signal_start_bin``` is the zero indexed first bin of the isolated signal.
 
 * ```signal_len``` is the number of bins spanned by the signal.
+
+
+### Options
+
+* ```--numsignals``` or ```-m```: Specify the number of lightcurves which should be processed, in no particular order. It is useful to check with a few lightcurves to make sure your set up is running as you wish before processing all the lightcurves. If unspecified, all lightcurves are processed.
+
+* ```--peakdir``` or ```-p```: Specify a directory to output the isolated signals. The naming of these files is of the format ```a_b.txt```, where ```a``` is ```lightcurve_idx``` and ```b``` is ```signal_idx```. If unspecified, no signal files are output.
+
+* ```--threshold``` or ```-h```: Specify a threshold parameter. A larger value will isolate only stronger or taller signals. A smaller value will also isolate weaker or lower signals, but may be susceptible to noise. It is important to play with this value for best results. If unspecified, the default value of ```2.0``` is assigned.
+
+* ```--maxzero```: Specify the maximum gap between two isolated regions to be ignored. If regions are closer, they are merged, otherwise they are treated as separate signals. Must be larger than or equal to ```2```. If unspecified, the default value of ```4``` is assigned.
+
+* ```minlength``` or ```-l```: Specify the minimum length of signal to pick up. Shorter signals are ignored. Must be larger than or equal to ```4```. If unspecified, the default value of ```12``` is assigned.
+
+* ```padratio``` or ```-r```: Specify amount of padding to add to the signal on either side. If unspecified, the default value of ```0.5``` is assigned.
+
+* ```--dwtdir``` or ```-d```: Specify a directory to output the unnormalized DWT of the isolated signals. The naming of these files is of the format ```a_b.txt```, where ```a``` is ```lightcurve_idx``` and ```b``` is ```signal_idx```. If unspecified, no DWT files are output.
+
+* ```--dwtminlen```: Specify the minimum length to which signals must be scaled to perform DWT. Must be a power of ```2```, larger than or equal to ```4```. If unspecified, the default value of ```16``` is assigned.
+
+* ```--dwtmaxlen```: Specify the maximum length to which signals must be scaled to perform DWT. Must be a power of ```2```. If unspecified, the default value of ```512``` is assigned.
+
+* ```--transform``` or ```-t```: Specify the type of DWT to be performed. Can be ```haar```, ```D4```, ```D6``` or ```D8```.
+
+* ```--append```: If the application run with this option, the output file is appended to, instead of being created anew.
+
+* ```--numfeatures``` or ```-n```: Specify the number of features to output in ```output_file```. If unspecified, the default value of ```7``` is assigned.
