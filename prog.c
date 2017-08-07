@@ -40,7 +40,7 @@ void printbv(BitVec *bv, float *sig){
 
 void printUsageError(){
 	printf(
-			"Usage: a.out [options] signal_directory output_file\n"
+			"Usage: a.out [options] lightcurve_directory output_file\n"
 			"options:\n"
 			"--numsignals  or -m  (def: All)\n"
 			"--peakdir     or -p  (def: None)\n"

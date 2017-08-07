@@ -11,10 +11,10 @@ Download this repository. Run ```make``` command from the terminal in the direct
 To use the application, run this from the terminal:
 
 ```
-./a.out [options] signal_directory output_file
+./a.out [options] lightcurve_directory output_file
 ```
 
-```signal_directory``` should contain any number of lightcurve files whose features need to be extracted. There should not be any other file inside the folder.
+```lightcurve_directory``` should contain any number of lightcurve files whose features need to be extracted. There should not be any other file inside the directory.
 
 ```output_file``` will contain all the normalized discrete wavelet transforms for all the signals which get isolated from the lightcurve files.
 
