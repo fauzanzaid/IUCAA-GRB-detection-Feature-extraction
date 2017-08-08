@@ -65,9 +65,9 @@ The output file is compatible with LIBSVM format. Each line also contains a comm
 
 * ```--maxzero```: Specify the maximum gap between two isolated regions to be ignored. If regions are closer, they are merged, otherwise they are treated as separate signals. Must be larger than or equal to ```2```. If unspecified, the default value of ```4``` is assigned.
 
-* ```minlength``` or ```-l```: Specify the minimum length of signal to pick up. Shorter signals are ignored. Must be larger than or equal to ```4```. If unspecified, the default value of ```12``` is assigned.
+* ``--minlength``` or ```-l```: Specify the minimum length of signal to pick up. Shorter signals are ignored. Must be larger than or equal to ```4```. If unspecified, the default value of ```12``` is assigned.
 
-* ```padratio``` or ```-r```: Specify amount of padding to add to the signal on either side. If unspecified, the default value of ```0.5``` is assigned.
+* ```--padratio``` or ```-r```: Specify amount of padding to add to the signal on either side. If unspecified, the default value of ```0.5``` is assigned.
 
 * ```--dwtdir``` or ```-d```: Specify a directory to output the unnormalized DWT of the isolated signals. The naming of these files is of the format ```a_b.txt```, where ```a``` is ```lightcurve_idx``` and ```b``` is ```signal_idx```. If unspecified, no DWT files are output.
 
