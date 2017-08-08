@@ -83,21 +83,15 @@ The output file is compatible with LIBSVM format. Each line also contains a comm
 
 ## Included tools
 
-In the ```tools``` directory, a python script ```fitsevt.py``` is included to convert CZTI event files to compatible text files which can be used directly as input files.
+In the ```tools``` directory, a python script ```fitsevt.py``` is included to convert CZTI event files to compatible lightcurve files which can be used directly as input files.
 
 Before using this tool ensure that ```astropy``` package is installed on the system. If not already installed, run:
 
 ```
-pip3 install astropy --user
+pip3 install astropy
 ```
 
-or
-
-```
-sudo pip3 install astropy
-```
-
-It can be executed from the terminal:
+To use the tool, execute it from the terminal:
 ```
 python3 fitsevt.py input_dir output_dir energy_lo energy_hi bin_size
 ```
