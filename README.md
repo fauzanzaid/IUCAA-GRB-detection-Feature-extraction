@@ -81,7 +81,7 @@ The output file is compatible with LIBSVM format. Each line also contains a comm
 
 * ```--numfeatures``` or ```-n```: Specify the number of features to output in ```output_file```. If unspecified, the default value of ```7``` is assigned.
 
-## Incuded tools
+## Included tools
 
 In the ```tools``` directory, a python script ```fitsevt.py``` is included to convert CZTI event files to compatible text files which can be used directly as input files.
 
@@ -115,5 +115,4 @@ python3 fitsevt.py input_dir output_dir energy_lo energy_hi bin_size
 
 ## Issues
 
-* Signals of interest must span at least four bins.
-* The implementations of the daubechies DWT are buggy and should not relied upon.
+The implementations of the daubechies DWT are buggy and should not relied upon. Specifically, changing the order of coefficients in ```DaubCoef.h``` might solve the problem.
