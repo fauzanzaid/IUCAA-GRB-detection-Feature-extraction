@@ -81,6 +81,36 @@ The output file is compatible with LIBSVM format. Each line also contains a comm
 
 * ```--numfeatures``` or ```-n```: Specify the number of features to output in ```output_file```. If unspecified, the default value of ```7``` is assigned.
 
+## Incuded tools
+
+In the ```tools``` directory, a python script ```fitsevt.py``` is included to convert CZTI event files to compatible text files which can be used directly as input files.
+
+Before using this tool ensure that ```astropy``` package is installed on the system. If not already installed, run:
+
+```
+pip3 install astropy --user
+```
+
+or
+
+```
+sudo pip3 install astropy
+```
+
+It can be executed from the terminal:
+```
+python3 fitsevt.py input_dir output_dir energy_lo energy_hi bin_size
+```
+
+* ```input_dir```: This directly should contain all event files which need to be converted and nothing else.
+
+* ```output_dir```: The script will output the converted files to this directory.
+
+* ```energy_lo```: The lower energy limit of photons to consider, in keV.
+
+* ```energy_hi```: The higher energy limit of photons to consider, in keV.
+
+* ```bin_size```: The size of bins that will hold the count, in seconds.
 
 
 ## Issues
