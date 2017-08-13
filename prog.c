@@ -313,7 +313,7 @@ int main(int argc, char *argv[]){
 				// printf("Writing to %s\n", peakFile);
 				FILE *peakFilePtr = fopen(peakFile, "w");
 
-				fprintf(peakFilePtr, "%d\n", sigNewLen);
+				fprintf(peakFilePtr, "%d %d\n", sigNewLen, sigType);
 				for(int i=0; i<sigNewLen; i++)
 					fprintf(peakFilePtr, "%f\n", sigNew[i]);
 
