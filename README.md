@@ -121,3 +121,9 @@ python3 fitsevt.py input_dir output_dir energy_lo energy_hi bin_size
 ## Issues
 
 The implementations of the daubechies DWT are buggy and should not relied upon. Specifically, changing the order of coefficients in ```DaubCoef.h``` might solve the problem.
+
+## Additional information
+
+* [Astrosat homepage](http://astrosat.iucaa.in/)
+* [CZTI GRB monitor page](http://astrosat.iucaa.in/czti/?q=grb)
+* [Prof. Dipankar Bhattacharya](http://www.iucaa.in/~dipankar/) (Chair, Science Analysis and Software, Astrosat Mission)
