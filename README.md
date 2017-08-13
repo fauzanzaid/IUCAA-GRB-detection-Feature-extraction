@@ -83,13 +83,24 @@ The output file is compatible with LIBSVM format. Each line also contains a comm
 
 ## Included tools
 
-In the ```tools``` directory, a python script ```fitsevt.py``` is included to convert CZTI event files to compatible lightcurve files which can be used directly as input files.
+In the ```tools``` directory, two python scripts are included to help in visualizing and convertion.
 
-Before using this tool ensure that ```astropy``` package is installed on the system. If not already installed, run:
+### ```plot.py```
 
+This script can be used to plot the data in lightcurve or signal files. Before using this tool ensure that [```matplotlib```](https://matplotlib.org/users/installing.html) package is installed on the system.
+
+#### Usage
+
+To use the tool, execute it from the terminal:
 ```
-pip3 install astropy
+python3 plot.py input_file
 ```
+
+### ```fitsevt.py```
+
+This script can be used to convert CZTI event files to compatible lightcurve files which can be used directly as input files. Before using this tool ensure that [```astropy```](http://docs.astropy.org/en/stable/install.html) package is installed on the system. 
+
+#### Usage
 
 To use the tool, execute it from the terminal:
 ```
